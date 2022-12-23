@@ -5,4 +5,4 @@ const app = express();
 app.use(express.json());
 
 // Will eventually be replaced by kubernates
-app.listen(3050, () => console.log("Auth service listening on port 3050"));
+app.listen(4000, () => console.log("Auth service listening on port 4000"));
