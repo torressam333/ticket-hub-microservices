@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { body } from "express-validator";
 
 const router = express.Router();
@@ -12,11 +12,11 @@ router.post(
       .isLength({ min: 4, max: 20 })
       .withMessage("Password must be between 4 and 20 chars")
   ],
-  async (req, res) => {
+  async (req: Request, res: Response) => {
     // Grab user creds from body
     const { email, password } = req.body;
 
-    // Validation
+    // Send potential erros back to user
   }
 );
 
