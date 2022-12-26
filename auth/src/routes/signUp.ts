@@ -10,7 +10,7 @@ router.post(
     body("password")
       .trim()
       .isLength({ min: 6, max: 20 })
-      .withMessage("Password must be between 4 and 20 chars")
+      .withMessage("Password must be between 6 and 20 chars")
   ],
   async (req: Request, res: Response) => {
     // May contain errors
