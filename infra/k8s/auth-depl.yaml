@@ -16,7 +16,9 @@ spec:
     spec:
       containers:
         - name: auth
-          image: torressam/auth:latest
+          image: torressam/auth
+          ports:
+            - containerPort: 3000
 ---
 # Kubernates service to go with above pod
 apiVersion: v1

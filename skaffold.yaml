@@ -6,7 +6,6 @@ deploy:
       - ./infra/k8s/*
 build:
   local:
-    # Don't push to docker hub by default
     push: true
   artifacts:
     - image: torressam/auth
@@ -15,5 +14,7 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
+          # HMR for any js file then applied to k8s pod
           - src: 'src/**/*.ts'
+            # Rebuild entire img if other non src/.ys file is changed
             dest: .
