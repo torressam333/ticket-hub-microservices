@@ -1,7 +1,7 @@
 import express from 'express';
 import currentUserRouter from './routes/currentUser';
 import signinRouter from './routes/signin';
-import { signOutRouter } from './routes/signOut';
+import signoutRouter from './routes/signout';
 import signupRouter from './routes/signup';
 import { errorHandler } from './middlewares/error-handler';
 
@@ -12,7 +12,7 @@ app.use(express.json());
 // Use imported route handlers
 app.use(currentUserRouter);
 app.use(signinRouter);
-app.use(signOutRouter);
+app.use(signoutRouter);
 app.use(signupRouter);
 
 // Middlewares (must come after route handlers)
