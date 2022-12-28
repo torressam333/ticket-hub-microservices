@@ -1,8 +1,13 @@
 import express from 'express';
+import 'express-async-errors';
+
+// Route imports
 import currentUserRouter from './routes/currentUser';
 import signinRouter from './routes/signin';
 import signoutRouter from './routes/signout';
 import signupRouter from './routes/signup';
+
+// MW Imports
 import { errorHandler } from './middlewares/error-handler';
 
 const app = express();
