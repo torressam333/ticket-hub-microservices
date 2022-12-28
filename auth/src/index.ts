@@ -9,14 +9,14 @@ const app = express();
 // Parse json from req bodies
 app.use(express.json());
 
-// Middlewares
-app.use(errorHandler);
-
 // Use imported route handlers
 app.use(currentUserRouter);
 app.use(signinRouter);
 app.use(signOutRouter);
 app.use(signupRouter);
+
+// Middlewares (must come after route handlers)
+app.use(errorHandler);
 
 // Will eventually be replaced by kubernates
 app.listen(3000, () => console.log('Auth service listening on port 3000'));

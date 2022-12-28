@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
+import 'express-async-errors';
 
 const signUpRouter = express.Router();
 
@@ -21,7 +22,7 @@ signUpRouter.post(
 
     console.log('creating user...');
 
-    //throw new Error('DB Has failed to load...');
+    throw new Error('DB Has failed to load...');
 
     res.send({});
   }
