@@ -9,11 +9,13 @@ import { ValidationError } from 'express-validator';
  * errors can be errors coming from any DB errors thrown.
  */
 export class DatabaseConnectionError extends Error {
-  constructor(public errors: ValidationError[]) {
+  reason = 'Database connection error...';
+
+  constructor() {
     // Must invoke parent constructor
     super();
 
-    // Must do this to get RVE class to work properly since this class extends a BUILT IN class
+    // Must do this to get since this class extends a BUILT IN class
     Object.setPrototypeOf(this, DatabaseConnectionError.prototype);
   }
 }

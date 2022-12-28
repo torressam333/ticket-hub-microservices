@@ -13,7 +13,7 @@ export class RequestValidationError extends Error {
     // Must invoke parent constructor
     super();
 
-    // Must do this to get RVE class to work properly since this class extends a BUILT IN class
+    // Must do this since this class extends a BUILT IN class
     Object.setPrototypeOf(this, RequestValidationError.prototype);
   }
 }
