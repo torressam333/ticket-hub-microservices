@@ -15,5 +15,3 @@ COPY . .
 
 # Cmd to run when container starts
 CMD ["npm", "start"]
-
-EXPOSE 3000

@@ -6,11 +6,9 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(
-    'SAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
-  );
-  // console.log({ samsError: err.message });
-  // res.status(400).json({
-  //   message: err.message,
-  // });
+  console.log('hiii');
+
+  res.status(400).json({
+    message: err.message,
+  });
 };
