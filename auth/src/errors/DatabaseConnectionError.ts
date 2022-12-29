@@ -10,6 +10,7 @@ import { ValidationError } from 'express-validator';
  */
 export class DatabaseConnectionError extends Error {
   reason = 'Database connection error...';
+  statusCode = 503;
 
   constructor() {
     // Must invoke parent constructor
@@ -17,5 +18,9 @@ export class DatabaseConnectionError extends Error {
 
     // Must do this to get since this class extends a BUILT IN class
     Object.setPrototypeOf(this, DatabaseConnectionError.prototype);
+  }
+
+  serializeErrors() {
+    return [{ message: this.reason }];
   }
 }

@@ -23,7 +23,7 @@ signUpRouter.post(
 
     console.log('creating user...');
 
-    // throw new DatabaseConnectionError();
+    throw new DatabaseConnectionError();
 
     res.send({});
   }
