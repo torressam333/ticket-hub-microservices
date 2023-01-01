@@ -1,4 +1,4 @@
-import { ValidationError } from 'express-validator';
+import { CustomError } from './customError';
 
 /**
  * Class is meant to be used as a generic conduit for any
@@ -8,13 +8,13 @@ import { ValidationError } from 'express-validator';
  * Example usage: throw new DatabaseConnectionError(errors);
  * errors can be errors coming from any DB errors thrown.
  */
-export class DatabaseConnectionError extends Error {
+export class DatabaseConnectionError extends CustomError {
   reason = 'Database connection error...';
   statusCode = 503;
 
   constructor() {
     // Must invoke parent constructor
-    super();
+    super('Database connection error...');
 
     // Must do this to get since this class extends a BUILT IN class
     Object.setPrototypeOf(this, DatabaseConnectionError.prototype);
