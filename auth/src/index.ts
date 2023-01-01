@@ -24,7 +24,7 @@ app.use(signoutRouter);
 app.use(signupRouter);
 
 // Fallback route handling - route not found at this point
-app.all('*', () => {
+app.all('*', async () => {
   throw new NotFoundError();
 });
 
