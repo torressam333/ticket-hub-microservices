@@ -10,6 +10,9 @@ import signupRouter from './routes/signup';
 // MW Imports
 import { errorHandler } from './middlewares/error-handler';
 
+// Error class imports
+import { NotFoundError } from './errors/NotFoundError';
+
 const app = express();
 // Parse json from req bodies
 app.use(express.json());
@@ -19,6 +22,11 @@ app.use(currentUserRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
 app.use(signupRouter);
+
+// Fallback route handling - route not found at this point
+app.all('*', () => {
+  throw new NotFoundError();
+});
 
 // Middlewares (must come after route handlers)
 app.use(errorHandler);
