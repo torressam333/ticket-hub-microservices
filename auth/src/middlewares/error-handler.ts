@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { RequestValidationError } from '../errors/RequestValidationError';
-import { DatabaseConnectionError } from '../errors/DatabaseConnectionError';
+import { CustomError } from '../errors/customError';
 
 export const errorHandler = (
   err: Error,
@@ -8,12 +7,9 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  if (err instanceof RequestValidationError) {
+  // All error classes will technically be an instance of the CustomError class via inheritence
+  if (err instanceof CustomError) {
     // Return object with standardized format as {errors: [{}]}
-    return res.status(err.statusCode).send({ errors: err.serializeErrors() });
-  }
-
-  if (err instanceof DatabaseConnectionError) {
     return res.status(err.statusCode).send({ errors: err.serializeErrors() });
   }
 
