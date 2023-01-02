@@ -1,5 +1,6 @@
 import express from 'express';
 import 'express-async-errors';
+import mongoose from 'mongoose';
 
 // Route imports
 import currentUserRouter from './routes/currentUser';
@@ -31,5 +32,25 @@ app.all('*', async () => {
 // Middlewares (must come after route handlers)
 app.use(errorHandler);
 
-// Will eventually be replaced by kubernates
-app.listen(3000, () => console.log('Auth service listening on port 3000'));
+// Mongoose connect fn
+const start = async () => {
+  try {
+    // Added per warning about false being default in mongo v7
+    mongoose.set('strictQuery', true);
+
+    // Auth mongo-srv cluster ip service ip address needed (kubectl get services)
+    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
+
+    console.log('Mongo auth srv connected properly...');
+  } catch (error) {
+    console.log('Something went wrong: ', error);
+  }
+
+  // K8S listening on port 3000 (@see auth-depm.yaml file)
+  app.listen(3000, async () =>
+    console.log('Auth service listening on port 3000')
+  );
+};
+
+// Start app
+start();
