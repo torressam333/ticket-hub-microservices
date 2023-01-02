@@ -1,3 +1,4 @@
+# Skaffold deploys all files listed in this Directory (better than running k8s apply etc)
 apiVersion: skaffold/v2alpha3
 kind: Config
 deploy:
