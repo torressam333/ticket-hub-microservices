@@ -6,6 +6,11 @@ interface UserAttrs {
   password: string;
 }
 
+// Interface to descrive props fir User Model
+interface UserModel extends mongoose.Model<any> {
+  build(attrs: UserAttrs): any;
+}
+
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -17,11 +22,12 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model('User', userSchema);
-
-// Way to implement TS interface with mongoose model
-const buildNewUser = (attrs: UserAttrs) => {
+// Way to implement TS interface with mongoose model via custom function
+// Now we can call: User.build({})
+userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 };
+
+const User = mongoose.model<any, UserModel>('User', userSchema);
 
 export { User };
