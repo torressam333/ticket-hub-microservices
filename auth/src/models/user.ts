@@ -38,7 +38,7 @@ userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 };
 
-// Init user model w/ interfaces implemented
+// Init user model w/ interfaces implemented. (<Collectionname>, <CollectionSchema>)
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
 export { User };
