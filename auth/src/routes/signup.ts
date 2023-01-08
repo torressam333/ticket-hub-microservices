@@ -21,9 +21,9 @@ signUpRouter.post(
     // Send potential erros in response
     if (!errors.isEmpty()) throw new RequestValidationError(errors.array());
 
-    console.log('creating user...');
+    // Create new user here
 
-    throw new DatabaseConnectionError();
+    // throw new DatabaseConnectionError();
 
     res.send({});
   }
