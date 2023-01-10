@@ -36,7 +36,10 @@ signUpRouter.post(
     // Return jwt to user
 
     // Return response w/ user
-    res.status(201).send(user);
+    res.status(201).json({
+      id: user._id,
+      email: user.email,
+    });
   }
 );
 
