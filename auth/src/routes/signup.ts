@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import { RequestValidationError } from '../errors/RequestValidationError';
+import { BadRequestError } from '../errors/BadRequestError';
 import User from '../models/user';
 
 const signUpRouter = express.Router();
@@ -25,7 +26,8 @@ signUpRouter.post(
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email });
 
-    if (existingUser) return res.send('Email is in use');
+    if (existingUser)
+      throw new BadRequestError('Email provided is already in use');
 
     // Create user and persist to mongodb
     const user = User.build({ email, password });
