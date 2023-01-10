@@ -6,19 +6,18 @@ interface UserAttrs {
   password: string;
 }
 
-// Interface to descrive props/shape of the entire User Model Collection
-// Along with any addtional methods the User model should have
-interface UserModel extends mongoose.Model<UserDoc> {
-  // must return instance of UserDoc
-  build(attrs: UserAttrs): UserDoc;
-}
-
-// Interface to descrive properties that the User Document has
-// Inherit from mongoose base Document class + extra custom props to add
+// Interface to describe properties that a single instance of a User has.
 interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
   // Any additional properties go here
+}
+
+// Interface to describe props/shape of the entire User Model Collection
+// Along with any addtional methods the User model should have
+interface UserModel extends mongoose.Model<UserDoc> {
+  // must return instance of UserDoc
+  build(attrs: UserAttrs): UserDoc;
 }
 
 const userSchema = new mongoose.Schema({
