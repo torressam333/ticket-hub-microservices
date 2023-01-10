@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import { RequestValidationError } from '../errors/RequestValidationError';
-import { DatabaseConnectionError } from '../errors/DatabaseConnectionError';
+import User from '../models/user';
 
 const signUpRouter = express.Router();
 
@@ -21,11 +21,20 @@ signUpRouter.post(
     // Send potential erros in response
     if (!errors.isEmpty()) throw new RequestValidationError(errors.array());
 
-    // Create new user here
+    // Check if user already exists with email
+    const { email, password } = req.body;
+    const existingUser = await User.findOne({ email });
 
-    // throw new DatabaseConnectionError();
+    if (existingUser) return res.send('Email is in use');
 
-    res.send({});
+    // Create user and persist to mongodb
+    const user = User.build({ email, password });
+    await user.save();
+
+    // Return jwt to user
+
+    // Return response w/ user
+    res.status(201).send(user);
   }
 );
 
