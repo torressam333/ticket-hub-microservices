@@ -32,6 +32,16 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// Pre save hook middleware
+userSchema.pre('save', async function (done) {
+  if (this.isModified('password')) {
+    const hashed = await Password.toHash(this.get('password'));
+    this.set('password', hashed);
+  }
+
+  done();
+});
+
 // Way to implement TS interface with mongoose model via custom function
 // Now we can call: User.build({}) since custom fn was added to statics list
 userSchema.statics.build = (attrs: UserAttrs) => {
