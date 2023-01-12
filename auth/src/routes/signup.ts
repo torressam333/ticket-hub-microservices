@@ -37,7 +37,7 @@ signUpRouter.post(
     // Generate jwt
     const userJwt = jwt.sign(
       { id: user.id, email: user.email },
-      'tempPrivateKey'
+      process.env.JWT_KEY
     );
 
     // Store jwt on session obj

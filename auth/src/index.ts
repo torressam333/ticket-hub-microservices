@@ -45,6 +45,8 @@ app.use(errorHandler);
 
 // Mongoose connect fn
 const start = async () => {
+  // Check for required env vars
+  if (!process.env.JWT_KEY) throw new Error('JWT_KEY is undefined');
   try {
     // Added per warning about false being default in mongo v7
     mongoose.set('strictQuery', true);
