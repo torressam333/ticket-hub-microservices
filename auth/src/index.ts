@@ -22,6 +22,13 @@ app.set('trust proxy', true);
 // Parse json from req bodies
 app.use(express.json());
 
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true,
+  })
+);
+
 // Use imported route handlers
 app.use(currentUserRouter);
 app.use(signinRouter);
@@ -33,14 +40,8 @@ app.all('*', async () => {
   throw new NotFoundError();
 });
 
-// Middlewares (must come after route handlers)
+// Middlewares (error handler must come after route handlers)
 app.use(errorHandler);
-app.use(
-  cookieSession({
-    signed: false,
-    secure: true,
-  })
-);
 
 // Mongoose connect fn
 const start = async () => {
