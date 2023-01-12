@@ -1,6 +1,7 @@
 import express from 'express';
 import 'express-async-errors';
 import mongoose from 'mongoose';
+import cookieSession from 'cookie-session';
 
 // Route imports
 import currentUserRouter from './routes/currentUser';
@@ -15,6 +16,9 @@ import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/NotFoundError';
 
 const app = express();
+// Trust traffic being proxied to app via ingress-nginx
+app.set('trust proxy', true);
+
 // Parse json from req bodies
 app.use(express.json());
 
@@ -31,6 +35,12 @@ app.all('*', async () => {
 
 // Middlewares (must come after route handlers)
 app.use(errorHandler);
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true,
+  })
+);
 
 // Mongoose connect fn
 const start = async () => {
