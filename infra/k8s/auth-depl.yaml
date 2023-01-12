@@ -19,6 +19,12 @@ spec:
           image: torressam/auth
           ports:
             - containerPort: 3000
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret #key inside of the k8s cluster
+                  key: JWT_KEY
 ---
 # Kubernates service to go with above pod
 apiVersion: v1
