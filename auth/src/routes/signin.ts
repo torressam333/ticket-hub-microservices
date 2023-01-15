@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
-import { RequestValidationError } from '../errors/RequestValidationError';
+import { body } from 'express-validator';
+import { validateRequest } from '../middlewares/validate-request';
 
 const signInRouter = express.Router();
 
@@ -12,13 +12,8 @@ const validationArr = [
 signInRouter.post(
   '/api/users/signin',
   validationArr,
-  async (req: Request, res: Response) => {
-    // May contain errors
-    const errors = validationResult(req);
-
-    // Send potential erros in response
-    if (!errors.isEmpty()) throw new RequestValidationError(errors.array());
-  }
+  validateRequest,
+  async (req: Request, res: Response) => {}
 );
 
 export default signInRouter;

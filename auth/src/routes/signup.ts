@@ -1,28 +1,25 @@
 import express, { Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
-import { RequestValidationError } from '../errors/RequestValidationError';
+import { body } from 'express-validator';
 import { BadRequestError } from '../errors/BadRequestError';
+import { validateRequest } from '../middlewares/validate-request';
 import User from '../models/user';
 import jwt from 'jsonwebtoken';
 
 const signUpRouter = express.Router();
 
+const validationArr = [
+  body('email').isEmail().withMessage('Email must be valid'),
+  body('password')
+    .trim()
+    .isLength({ min: 6, max: 20 })
+    .withMessage('Password must be between 6 and 20 chars'),
+];
+
 signUpRouter.post(
   '/api/users/signup',
-  [
-    body('email').isEmail().withMessage('Email must be valid'),
-    body('password')
-      .trim()
-      .isLength({ min: 6, max: 20 })
-      .withMessage('Password must be between 6 and 20 chars'),
-  ],
+  validationArr,
+  validateRequest,
   async (req: Request, res: Response) => {
-    // May contain errors
-    const errors = validationResult(req);
-
-    // Send potential erros in response
-    if (!errors.isEmpty()) throw new RequestValidationError(errors.array());
-
     // Check if user already exists with email
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email });
