@@ -3,7 +3,6 @@
  * w/ a valid jwt (cookie)
  */
 import express from 'express';
-import jwt from 'jsonwebtoken';
 import { currentUser } from '../middlewares/current-user';
 
 const currentUserRouter = express.Router();
