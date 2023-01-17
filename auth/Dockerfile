@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json .
 
 # What to run when creating image
-RUN npm install
+RUN npm install --omit-dev
 
 # Copy everything else from project dir into /app
 COPY . .
