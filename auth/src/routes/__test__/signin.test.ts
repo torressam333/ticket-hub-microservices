@@ -25,4 +25,23 @@ describe('Sign in route', () => {
       .send({ email: 'test@test.com', password: 'Passy123' })
       .expect(400);
   });
+
+  it('responds with a valid cookie when provided valid credentials', async () => {
+    // First create an acct
+    await request(app)
+      .post('/api/users/signup')
+      .send({
+        email: 'test@test.com',
+        password: 'Test123',
+      })
+      .expect(201);
+
+    // Sign in with a CORRECT password
+    const response = await request(app)
+      .post('/api/users/signin')
+      .send({ email: 'test@test.com', password: 'Test123' })
+      .expect(200);
+
+    expect(response.get('Set-Cookie')).toBeDefined();
+  });
 });
