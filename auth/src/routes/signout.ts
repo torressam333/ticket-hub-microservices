@@ -6,7 +6,7 @@ signoutRouter.post('/api/users/signout', async (req, res) => {
   // Empty cookie and session info
   req.session = null;
 
-  res.send({});
+  res.status(200).send({});
 });
 
 export default signoutRouter;
