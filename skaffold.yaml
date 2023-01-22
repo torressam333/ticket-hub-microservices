@@ -17,5 +17,5 @@ build:
         manual:
           # HMR for any js file then applied to k8s pod
           - src: 'src/**/*.ts'
-            # Rebuild entire img if other non src/.ys file is changed
+            # Rebuild entire img if other non src/.ts file is changed
             dest: .
