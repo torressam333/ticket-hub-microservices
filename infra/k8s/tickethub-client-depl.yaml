@@ -16,9 +16,7 @@ spec:
     spec:
       containers:
         - name: tickethub-client
-          image: torressam/tickethub-client
-          ports:
-            - containerPort: 3000
+          image: torressam/tickethub-client:latest
 ---
 # K8's complimentary tickethub-client service
 apiVersion: v1
