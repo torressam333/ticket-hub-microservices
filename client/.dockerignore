@@ -1,0 +1,4 @@
+#Image will build it's own set of deps
+node_modules
+
+.next
