@@ -1,4 +1,3 @@
-# Skaffold deploys all files listed in this Directory (better than running k8s apply etc)
 apiVersion: skaffold/v2alpha3
 kind: Config
 deploy:
@@ -7,7 +6,7 @@ deploy:
       - ./infra/k8s/*
 build:
   local:
-    push: true
+    push: false
   artifacts:
     - image: torressam/auth
       context: auth
@@ -15,16 +14,13 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          # HMR for any js file then applied to k8s pods (auth, client, etc...)
           - src: 'src/**/*.ts'
-            # Rebuild entire img if other non src/.ts file is changed
             dest: .
-    - image: torressam/ms_client
-      context: ms_client
+    - image: torressam/tickethub-client
+      context: tickethub-client
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
           - src: '**/*.js'
-            # Rebuild entire img if other non .js file is changed
             dest: .

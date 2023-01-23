@@ -23,6 +23,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ms_client-srv
+                name: tickethub-client-srv
                 port:
                   number: 3000

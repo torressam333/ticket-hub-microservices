@@ -1,36 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ms_client-depl
+  name: tickethub-client-depl
 spec:
   replicas: 1
   # Add selector so depl can find which pods to create
   selector:
     matchLabels:
-      app: ms_client
+      app: tickethub-client
   # Pod creation details
   template:
     metadata:
       labels:
-        app: ms_client
+        app: tickethub-client
     spec:
       containers:
-        - name: ms_client
-          image: torressam/ms_client
+        - name: tickethub-client
+          image: torressam/tickethub-client
           ports:
             - containerPort: 3000
 ---
-# K8's complimentary ms_client service
+# K8's complimentary tickethub-client service
 apiVersion: v1
 kind: Service
 metadata:
-  name: ms_client-srv
+  name: tickethub-client-srv
 spec:
   selector:
     # Find matching pods by selector
-    app: ms_client
+    app: tickethub-client
   ports:
-    - name: ms_client
+    - name: tickethub-client
       protocol: TCP
       port: 3000
       targetPort: 3000
