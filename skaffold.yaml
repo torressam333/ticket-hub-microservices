@@ -15,7 +15,7 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          # HMR for any js file then applied to k8s pod
+          # HMR for any js file then applied to k8s pods (auth, client, etc...)
           - src: 'src/**/*.ts'
             # Rebuild entire img if other non src/.ts file is changed
             dest: .

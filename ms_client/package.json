@@ -1,7 +1,7 @@
 {
-  "name": "client",
+  "name": "micro_services_client",
   "version": "1.0.0",
-  "description": "",
+  "description": "Microservice front end built with next.js framework",
   "main": "index.js",
   "scripts": {
     "dev": "next"
