@@ -19,3 +19,12 @@ build:
           - src: 'src/**/*.ts'
             # Rebuild entire img if other non src/.ts file is changed
             dest: .
+    - image: torressam/ms_client
+      context: ms_client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            # Rebuild entire img if other non .js file is changed
+            dest: .
