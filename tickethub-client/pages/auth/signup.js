@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRequest } from '../../hooks/useRequest';
+import Router from 'next/router';
 
 const signup = () => {
   const [email, setEmail] = useState('');
@@ -11,13 +12,14 @@ const signup = () => {
       email,
       password,
     },
+    onSuccess: () => Router.push('/'),
   });
 
   const signUpSubmit = async (event) => {
     event.preventDefault();
 
     // Use custom req hook
-    executeRequest();
+    await executeRequest();
   };
 
   return (

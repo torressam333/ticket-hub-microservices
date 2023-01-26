@@ -1,14 +1,18 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-export const useRequest = ({ url, method, body }) => {
+export const useRequest = ({ url, method, body, onSuccess }) => {
   const [errors, setErrors] = useState(null);
 
   const executeRequest = async () => {
     try {
+      setErrors(null);
+
       // Look up method by index
       const response = await axios[method](url, body);
-      setErrors(null);
+
+      // Allow implementing files to provide a success action
+      if (onSuccess) onSuccess();
 
       return response.data;
     } catch (err) {
