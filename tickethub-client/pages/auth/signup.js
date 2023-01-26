@@ -1,24 +1,23 @@
 import { useState } from 'react';
-import axios from 'axios';
+import { useRequest } from '../../hooks/useRequest';
 
 const signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState([]);
+  const { executeRequest, errors } = useRequest({
+    url: '/api/users/signup',
+    method: 'post',
+    body: {
+      email,
+      password,
+    },
+  });
 
   const signUpSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      const response = await axios.post('/api/users/signup', {
-        email,
-        password,
-      });
-
-      console.log(response.data);
-    } catch (err) {
-      setErrors(err.response.data.errors);
-    }
+    // Use custom req hook
+    executeRequest();
   };
 
   return (
@@ -47,15 +46,7 @@ const signup = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      {errors.length > 0 && (
-        <div className='alert alert-danger'>
-          <h4>Something went wrong:</h4>
-          <ul className='my-0'>
-            {errors &&
-              errors.map((err) => <li key={err.message}>{err.message}</li>)}
-          </ul>
-        </div>
-      )}
+      {errors}
       <button className='btn btn-primary mt-2'>Sign Up</button>
     </form>
   );
