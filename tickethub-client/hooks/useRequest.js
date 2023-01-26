@@ -8,6 +8,7 @@ export const useRequest = ({ url, method, body }) => {
     try {
       // Look up method by index
       const response = await axios[method](url, body);
+      setErrors(null);
 
       return response.data;
     } catch (err) {
