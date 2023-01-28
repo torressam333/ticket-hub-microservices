@@ -1,3 +1,8 @@
+/**
+ * Meant to be used as a custom hook only inside of other components.
+ *
+ * Cannot be used to fetch data during an ssr process. i.e. genInitialProps() etc...
+ */
 import axios from 'axios';
 import { useState } from 'react';
 

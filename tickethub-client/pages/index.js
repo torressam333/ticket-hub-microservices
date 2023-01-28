@@ -1,24 +1,37 @@
 import React from 'react';
-import { useRequest } from '../hooks/useRequest';
+import axios from 'axios';
 
-// const { executeRequest, errors } = useRequest({
-//   url: '/api/users/currentUser',
-//   method: 'get',
-// });
+const LandingPage = ({ currentUser }) => {
+  console.log(currentUser);
 
-const LandingPage = ({ message }) => {
-  return <div>{message ? message : ' You are not signed in'}</div>;
+  return <h1>Landing Page</h1>;
 };
 
 // Fetch data during SSR process
-LandingPage.getInitialProps = async () => {
-  console.log('I am on the server');
+LandingPage.getInitialProps = async ({ req }) => {
+  let currentUser;
+  // In server node env
+  if (typeof window === 'undefined') {
+    const { data } = await axios.get(
+      'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser',
+      {
+        headers: req.headers,
+      }
+    );
 
-  return { message: '' };
-  // const response = await executeRequest();
-  // console.log({ response });
+    currentUser = data;
+  } else {
+    try {
+      // In a browser based env
+      const { data } = await axios.get('/api/users/currentuser');
 
-  // if (response.currentUser) return { currentUser: response.currentUser };
+      currentUser = data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return { currentUser };
 };
 
 export default LandingPage;
