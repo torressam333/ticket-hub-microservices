@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import buildClient from '../api/buildClient';
 
 const LandingPage = ({ currentUser }) => {
   console.log(currentUser);
@@ -8,30 +8,23 @@ const LandingPage = ({ currentUser }) => {
 };
 
 // Fetch data during SSR process
-LandingPage.getInitialProps = async ({ req }) => {
-  let currentUser;
-  // In server node env
-  if (typeof window === 'undefined') {
-    const { data } = await axios.get(
-      'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser',
-      {
-        headers: req.headers,
-      }
-    );
+LandingPage.getInitialProps = async (context) => {
+  // let currentUser;
+  // try {
+  //   const { data } = await buildClient(context).get('/api/users/currentUser');
 
-    currentUser = data;
-  } else {
-    try {
-      // In a browser based env
-      const { data } = await axios.get('/api/users/currentuser');
+  //   currentUser = data;
+  // } catch (error) {
+  //   console.error(error);
+  // }
 
-      currentUser = data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // // Get initial props expects an obj as ret value
+  // // hence the in/out scope currentUser var
+  // return { currentUser };
 
-  return { currentUser };
+  const { data } = await buildClient(context).get('/api/users/currentuser');
+
+  return data;
 };
 
 export default LandingPage;
