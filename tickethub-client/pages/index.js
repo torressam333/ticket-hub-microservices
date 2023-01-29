@@ -15,7 +15,6 @@ LandingPage.getInitialProps = async ({ req }) => {
     const { data } = await axios.get(
       'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser',
       {
-        Host: 'tickethub.io',
         headers: req.headers,
       }
     );
