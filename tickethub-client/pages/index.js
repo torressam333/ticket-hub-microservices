@@ -9,22 +9,18 @@ const LandingPage = ({ currentUser }) => {
 
 // Fetch data during SSR process
 LandingPage.getInitialProps = async (context) => {
-  // let currentUser;
-  // try {
-  //   const { data } = await buildClient(context).get('/api/users/currentUser');
+  let currentUser;
+  try {
+    const { data } = await buildClient(context).get('/api/users/currentUser');
 
-  //   currentUser = data;
-  // } catch (error) {
-  //   console.error(error);
-  // }
+    currentUser = data;
+  } catch (error) {
+    console.error(error);
+  }
 
-  // // Get initial props expects an obj as ret value
-  // // hence the in/out scope currentUser var
-  // return { currentUser };
-
-  const { data } = await buildClient(context).get('/api/users/currentuser');
-
-  return data;
+  // Get initial props expects an obj as ret value
+  // hence the in/out scope currentUser var
+  return { currentUser };
 };
 
 export default LandingPage;
