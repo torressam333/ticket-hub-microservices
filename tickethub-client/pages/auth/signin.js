@@ -1,7 +1,7 @@
 import Authenticate from './authenticate';
 
 const signin = () => {
-  return <Authenticate pagetitle='Sign Up' apiurl='/api/users/signup' />;
+  return <Authenticate pagetitle='Sign In' apiurl='/api/users/signin' />;
 };
 
 export default signin;
