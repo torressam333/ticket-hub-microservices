@@ -1,30 +1,30 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import buildClient from '../api/buildClient';
 
-const AppComponent = ({ Component, pageProps }) => {
+const AppComponent = ({ Component, pageProps, currentUser }) => {
   return (
     <div>
-      <h2>Header</h2>
+      {/* Place holder for now */}
+      <h2>Header {currentUser.email}</h2>
       <Component {...pageProps} />;
     </div>
   );
 };
 
 // Fetch data during SSR process
-AppComponent.getInitialProps = async ({ ctx }) => {
-  let currentUser;
-  try {
-    const { data } = await buildClient(ctx).get('/api/users/currentUser');
+AppComponent.getInitialProps = async ({ ctx, Component }) => {
+  const { data } = await buildClient(ctx).get('/api/users/currentUser');
+  let pageProps = {};
 
-    console.log('HERE');
-    console.log(data);
-
-    currentUser = data;
-  } catch (error) {
-    console.error(error);
+  if (Component.getInitialProps) {
+    // Call gInProp method from LandingPage
+    pageProps = await Component.getInitialProps(ctx);
   }
 
-  return currentUser;
+  return {
+    pageProps,
+    ...data,
+  };
 };
 
 export default AppComponent;
