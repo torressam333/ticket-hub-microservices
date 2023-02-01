@@ -1,0 +1,12 @@
+{
+  "name": "@torressam/common",
+  "version": "1.0.0",
+  "description": "Reusable error handling package meant to be used with express js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
