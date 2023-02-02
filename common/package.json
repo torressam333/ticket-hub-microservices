@@ -2,14 +2,15 @@
   "name": "@torressam/common",
   "version": "1.0.0",
   "description": "Reusable error handling package meant to be used with express js",
-  "main": "index.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build/**/*"
+  ],
   "scripts": {
     "clean": "del ./build/*",
     "build": "npm run clean && tsc"
   },
-  "files": [
-    "build/**/*"
-  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
