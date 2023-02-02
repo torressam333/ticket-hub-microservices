@@ -7,6 +7,9 @@
     "clean": "del ./build/*",
     "build": "npm run clean && tsc"
   },
+  "files": [
+    "build/**/*"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
