@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: torressam/auth:latest
+          image: torressam/auth
           env:
             - name: JWT_KEY
               valueFrom:

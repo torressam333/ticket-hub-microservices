@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: tickethub-client
-          image: torressam/tickethub-client:latest
+          image: torressam/tickethub-client
 ---
 # K8's complimentary tickethub-client service
 apiVersion: v1
