@@ -1,5 +1,5 @@
 # Grab base image
-FROM node:alpine
+FROM node:lts-alpine
 
 # Set up working directory
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json .
 
 # Cmd to run
-RUN npm install
+RUN npm install --omit-dev
 
 #Copy everything else from src dir
 COPY . .
