@@ -16,8 +16,8 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: torressam/ticket-client
-      context: ticket-client
+    - image: torressam/tickethub-client
+      context: tickethub-client
       docker:
         dockerfile: Dockerfile
       sync:
