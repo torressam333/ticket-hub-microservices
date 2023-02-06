@@ -7,6 +7,13 @@ current=$(git branch | grep "*" | cut -b 3-)
 message=\'"$@"\'
 git add -A && git commit -a -m "$message"
 
+if [ "$message" = "" ]; then
+  echo "Missing commit message"
+  exit;
+else
+  echo "Thanks for the commit message"
+fi
+
 echo "Where to push?"
 read -i "$current" -e branch
 
