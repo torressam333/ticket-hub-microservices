@@ -4,7 +4,10 @@ function addcommitpush () {
 
 current=$(git branch | grep "*" | cut -b 3-)
 
-message=\'"$@"\'
+echo "1st parameter = $message"
+
+message=$1
+
 git add -A && git commit -a -m "$message"
 
 if [ -z "$message" ]; then
