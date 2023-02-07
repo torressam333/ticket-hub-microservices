@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticketing-mongo-depl
+spec:
+  replicas: 1
+  # Step 1/2: Tell deployment how to find pods to create
+  selector:
+    matchLabels:
+      app: ticketing-mongo
+  # How to create each pod
+  template:
+    metadata:
+      labels:
+        app: ticketing-mongo
+    spec:
+      containers:
+        - name: ticketing-mongo
+          image: mongo #official mongo db image from Docker hub
+---
+# Kubernates cluster i[ ]service to connect with above pod when created
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticketing-mongo-srv
+spec:
+  selector:
+    # Find all pods with label of app:auth-mongo
+    app: ticketing-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017 # Default mongo db port
+      targetPort: 27017

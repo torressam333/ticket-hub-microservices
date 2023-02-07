@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticketing-depl
+spec:
+  replicas: 1
+  # Step 1/2: Tell deployment how to find pods to create
+  selector:
+    matchLabels:
+      app: ticketing
+  # How to create each pod
+  template:
+    metadata:
+      labels:
+        app: ticketing
+    spec:
+      containers:
+        - name: ticketing
+          image: torressam/ticketing
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret #key inside of the k8s cluster
+                  key: JWT_KEY
+---
+# Kubernates service to go with above pod
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticketing-srv
+spec:
+  selector:
+    # Find all pods with label of app:ticketing
+    app: ticketing
+  ports:
+    - name: ticketing
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

@@ -9,17 +9,17 @@ const start = async () => {
     // Added per warning about false being default in mongo v7
     mongoose.set('strictQuery', true);
 
-    // Auth mongo-srv cluster ip service ip address needed (kubectl get services)
+    // Ticketing mongo-srv cluster ip service ip address needed (kubectl get services)
     await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
 
-    console.log('Mongo auth srv connected properly...');
+    console.log('Mongo ticketing srv connected properly...');
   } catch (error) {
     console.log('Something went wrong: ', error);
   }
 
   // K8S listening on port 3000 (@see auth-depl.yaml file)
   app.listen(3000, async () =>
-    console.log('Auth service listening on port 3000')
+    console.log('Ticketing service listening on port 3000')
   );
 };
 
