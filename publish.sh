@@ -19,7 +19,8 @@ fi
 if [ -n "$(git status - porcelain)" ];
 then
  echo "IT IS CLEAN"
-else
+fi
+
 echo "Where to push?"
 read -i "$current" -e branch
 
@@ -34,8 +35,7 @@ read -i "y" -e yn
 npm version patch
 npm run build
 npm publish
- fi
- 
+
 if [ "$yn" = y ]; then
   git push origin "$branch"
 else
