@@ -1,3 +1,4 @@
+// Simplify import for other services installing this npm package
 export * from './errors/BadRequestError';
 export * from './errors/customError';
 export * from './errors/DatabaseConnectionError';
