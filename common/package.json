@@ -1,6 +1,6 @@
 {
   "name": "@torressam/common",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Reusable error handling package meant to be used with express js",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
