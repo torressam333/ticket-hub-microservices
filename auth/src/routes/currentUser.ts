@@ -3,7 +3,7 @@
  * w/ a valid jwt (cookie)
  */
 import express from 'express';
-import { currentUser } from '../middlewares/current-user';
+import { currentUser } from '@torressam/common';
 
 const currentUserRouter = express.Router();
 

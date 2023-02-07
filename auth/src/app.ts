@@ -8,11 +8,8 @@ import signinRouter from './routes/signin';
 import signoutRouter from './routes/signout';
 import signupRouter from './routes/signup';
 
-// MW Imports
-import { errorHandler } from './middlewares/error-handler';
-
-// Error class imports
-import { NotFoundError } from './errors/NotFoundError';
+// MW Imports/Error class imports
+import { errorHandler, NotFoundError } from '@torressam/common';
 
 // Create express server
 const app = express();
