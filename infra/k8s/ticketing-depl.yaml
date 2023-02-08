@@ -18,6 +18,8 @@ spec:
         - name: ticketing
           image: torressam/ticketing
           env:
+            - name: MONGO_URI
+              value: mongodb://ticketing-mongo-srv:27017/ticketing
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
