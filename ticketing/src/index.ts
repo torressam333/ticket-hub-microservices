@@ -10,9 +10,9 @@ const start = async () => {
     mongoose.set('strictQuery', true);
 
     // Ticketing mongo-srv cluster ip service ip address needed (kubectl get services)
-    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
+    await mongoose.connect('mongodb://ticketing-mongo-srv:27017/auth');
 
-    console.log('Mongo ticketing srv connected properly...');
+    console.log('Ticketing mongo srv connected properly...');
   } catch (error) {
     console.log('Something went wrong: ', error);
   }
