@@ -3,7 +3,8 @@ import 'express-async-errors';
 import cookieSession from 'cookie-session';
 
 // MW Imports/Error class imports
-import { errorHandler, NotFoundError } from '@torressam/common';
+import { errorHandler, NotFoundError, currentUser } from '@torressam/common';
+import newTicketRouter from './routes/new';
 
 // Create express server
 const app = express();
@@ -20,6 +21,12 @@ app.use(
     secure: process.env.NODE_ENV !== 'test', // Tests don't run in https
   })
 );
+
+// Middleware
+app.use(currentUser);
+
+// Use Routers
+app.use(newTicketRouter);
 
 // Fallback route handling - route not found at this point
 app.all('*', async () => {

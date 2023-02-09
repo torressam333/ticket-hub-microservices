@@ -1,7 +1,5 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import request from 'supertest';
-import app from '../app';
 
 // Declare in global setup scope
 let mongo: any;
@@ -39,16 +37,13 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-// Global sign up helper for testing authenticated requests
 global.signup = async () => {
-  const email = 'test@test.com';
-  const password = 'Test1234!';
+  // Build jwt payload {id, email}
+  // Create jwt
+  // Build session object
+  // Convert session to JSON
+  // Encode JSON as base 64
+  // Return mock cooke with encoded data
 
-  const signUpResponse = await request(app)
-    .post('/api/users/signup')
-    .send({ email, password })
-    .expect(201);
-
-  // Make cookie available for follow up tests requiring cookie/jwt
-  return signUpResponse.get('Set-Cookie');
+  return [`session=${base64}`];
 };
