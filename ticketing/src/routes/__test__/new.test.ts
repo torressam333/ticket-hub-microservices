@@ -21,7 +21,55 @@ describe('New Ticket', () => {
     expect(response.status).not.toEqual(401);
   });
 
-  it('returns an error if an invalid title is provided', async () => {});
-  it('returns an error if an invalid price is provided', async () => {});
-  it('creates a ticket with valid payload', async () => {});
+  it('returns an error if an invalid title is provided', async () => {
+    const cookie = signup();
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', cookie)
+      .send({
+        title: '',
+        price: 10,
+      })
+      .expect(400);
+
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', cookie)
+      .send({
+        price: 10,
+      })
+      .expect(400);
+  });
+
+  it('returns an error if an invalid price is provided', async () => {
+    const cookie = signup();
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', cookie)
+      .send({
+        title: 'Concert',
+        price: -45,
+      })
+      .expect(400);
+
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', cookie)
+      .send({
+        title: 'Concert2',
+      })
+      .expect(400);
+  });
+
+  it('creates a ticket with valid payload', async () => {
+    const cookie = signup();
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', cookie)
+      .send({
+        title: 'Concert',
+        price: 100,
+      })
+      .expect(201);
+  });
 });
