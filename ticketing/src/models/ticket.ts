@@ -1,20 +1,20 @@
 import mongoose from 'mongoose';
 
-// Interface to describe attributes required for a new instantiation of a ticket
+// Properties required to build a new Ticket
 interface TicketAttrs {
   title: string;
   price: string;
 }
 
-// Interface to describe properties that a single instance of a Ticket has.
+// List of properties that a Ticket has. Final set of properties on a saved
+// record might be different than what's required to create one (i.e. TicketAttrs)
 interface TicketDoc extends mongoose.Document {
   title: string;
   price: string;
   // Any additional ricket properties go here
 }
 
-// Interface to describe props/shape of the Ticket Model Collection
-// Along with any addtional methods the Ticket model should have
+// Properties which are tied to/added directly on the model to be accessed
 interface TicketModel extends mongoose.Model<TicketDoc> {
   build(attrs: TicketAttrs): TicketDoc;
 }
