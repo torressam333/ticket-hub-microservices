@@ -3,15 +3,16 @@ import mongoose from 'mongoose';
 // Properties required to build a new Ticket
 interface TicketAttrs {
   title: string;
-  price: string;
+  price: number;
+  userId: string;
 }
 
 // List of properties that a Ticket has. Final set of properties on a saved
 // record might be different than what's required to create one (i.e. TicketAttrs)
 interface TicketDoc extends mongoose.Document {
   title: string;
-  price: string;
-  // Any additional ricket properties go here
+  price: number;
+  userId: string;
 }
 
 // Properties which are tied to/added directly on the model to be accessed
@@ -21,12 +22,16 @@ interface TicketModel extends mongoose.Model<TicketDoc> {
 
 const ticketSchema = new mongoose.Schema(
   {
+    userId: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
     },
     price: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
@@ -35,7 +40,6 @@ const ticketSchema = new mongoose.Schema(
       transform(_, ret) {
         ret.id = ret._id;
         delete ret._id;
-        delete ret.password;
         delete ret.__v;
       },
     },
