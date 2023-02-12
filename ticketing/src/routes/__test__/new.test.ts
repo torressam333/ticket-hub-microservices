@@ -62,13 +62,14 @@ describe('New Ticket', () => {
   });
 
   it('creates a ticket with valid payload', async () => {
+    // TODO: Add check to make sure a ticket was saved in mongo
     const cookie = signup();
     await request(app)
       .post('/api/tickets')
       .set('Cookie', cookie)
       .send({
         title: 'Concert',
-        price: 100,
+        price: 67,
       })
       .expect(201);
   });
