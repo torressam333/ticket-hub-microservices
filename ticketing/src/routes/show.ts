@@ -2,18 +2,24 @@ import express, { Request, Response } from 'express';
 import Ticket from '../models/ticket';
 import { param } from 'express-validator';
 import { validateRequest, NotFoundError } from '@torressam/common';
+import mongoose from 'mongoose';
 
 const showTicketRouter = express.Router();
 
 showTicketRouter.get(
   '/api/tickets/:id',
-  [param('id').notEmpty().isNumeric().withMessage('Ticket id is required')],
-  validateRequest,
   async (req: Request, res: Response) => {
-    const ticket = await Ticket.findById(req.params.id);
+    const ticketId = req.params.id;
 
+    // Validate id
+    if (!mongoose.isValidObjectId(ticketId)) throw new NotFoundError();
+
+    const ticket = await Ticket.findById(ticketId);
+
+    // Handle non-existent ticket
     if (!ticket) throw new NotFoundError();
-    res.send(ticket);
+
+    return res.status(200).send(ticket);
   }
 );
 
