@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 
 const showTicketRouter = express.Router();
 
+// Grab specific ticket by id
 showTicketRouter.get(
   '/api/tickets/:id',
   async (req: Request, res: Response) => {
