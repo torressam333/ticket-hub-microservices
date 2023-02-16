@@ -6,6 +6,7 @@ import cookieSession from 'cookie-session';
 import { errorHandler, NotFoundError, currentUser } from '@torressam/common';
 import newTicketRouter from './routes/new';
 import showTicketRouter from './routes/show';
+import indexTicketRouter from './routes/index';
 
 // Create express server
 const app = express();
@@ -27,6 +28,7 @@ app.use(
 app.use(currentUser);
 
 // Use Routers
+app.use(indexTicketRouter);
 app.use(newTicketRouter);
 app.use(showTicketRouter);
 
