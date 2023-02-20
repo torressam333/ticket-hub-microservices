@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import Ticket from '../models/ticket';
-import { param } from 'express-validator';
-import { validateRequest, NotFoundError } from '@torressam/common';
+import { NotFoundError } from '@torressam/common';
 import mongoose from 'mongoose';
 
 const showTicketRouter = express.Router();

@@ -7,6 +7,7 @@ import { errorHandler, NotFoundError, currentUser } from '@torressam/common';
 import newTicketRouter from './routes/new';
 import showTicketRouter from './routes/show';
 import indexTicketRouter from './routes/index';
+import updateRouter from './routes/update';
 
 // Create express server
 const app = express();
@@ -31,6 +32,7 @@ app.use(currentUser);
 app.use(indexTicketRouter);
 app.use(newTicketRouter);
 app.use(showTicketRouter);
+app.use(updateRouter);
 
 // Fallback route handling - route not found at this point
 app.all('*', async () => {
