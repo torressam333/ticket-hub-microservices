@@ -1,5 +1,6 @@
 import request from 'supertest';
 import app from '../../app';
+import Ticket from '../../models/ticket';
 
 describe('New Ticket', () => {
   it('has a route handler listening to /api/tickets for post requests', async () => {
@@ -62,15 +63,27 @@ describe('New Ticket', () => {
   });
 
   it('creates a ticket with valid payload', async () => {
-    // TODO: Add check to make sure a ticket was saved in mongo
+    // Check how many tickets are in collection
+    let tickets = await Ticket.find({});
+    expect(tickets.length).toEqual(0);
+
     const cookie = signup();
+    const title = 'Concert';
+    const price = 67;
+
     await request(app)
       .post('/api/tickets')
       .set('Cookie', cookie)
       .send({
-        title: 'Concert',
-        price: 67,
+        title,
+        price,
       })
       .expect(201);
+
+    // Re-quuery mongo after post req to create
+    tickets = await Ticket.find({});
+    expect(tickets.length).toEqual(1);
+    expect(tickets[0].price).toEqual(price);
+    expect(tickets[0].title).toEqual(title);
   });
 });

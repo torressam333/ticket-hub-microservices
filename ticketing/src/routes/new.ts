@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { requireAuth, validateRequest } from '@torressam/common';
 import { body } from 'express-validator';
+import Ticket from '../models/ticket';
 
 const newTicketRouter = express.Router();
 
@@ -15,9 +16,20 @@ newTicketRouter.post(
       .withMessage('Price must be greater than 0'),
   ],
   validateRequest,
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     try {
-      res.sendStatus(200);
+      const { title, price } = req.body;
+
+      const ticket = Ticket.build({
+        title,
+        price,
+        userId: req.currentUser!.id,
+      });
+
+      // Save to mongoDB
+      await ticket.save();
+
+      res.status(201).json(ticket);
     } catch (error) {}
   }
 );
