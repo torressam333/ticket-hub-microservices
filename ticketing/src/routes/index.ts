@@ -5,7 +5,6 @@ const indexTicketRouter = express.Router();
 
 indexTicketRouter.get('/api/tickets', async (req: Request, res: Response) => {
   try {
-    // All tickets for now
     // TODO: Add filtering based on availability
     const tickets = await Ticket.find({});
 
