@@ -46,7 +46,32 @@ describe('Updating tickets', () => {
       .expect(401);
   });
 
-  it('returns a 400 if the payload has incorrect values', async () => {});
+  it('returns a 400 if the payload has incorrect values', async () => {
+    const cookie = signup();
+
+    const response = await request(app)
+      .post('/api/tickets')
+      .set('Cookie', cookie)
+      .send({ title: 'Concert', price: 250 });
+
+    await request(app)
+      .put(`/api/tickets/${response.body.id}`)
+      .set('Cookie', cookie)
+      .send({
+        title: '',
+        price: 250,
+      })
+      .expect(400);
+
+    await request(app)
+      .put(`/api/tickets/${response.body.id}`)
+      .set('Cookie', cookie)
+      .send({
+        title: 'Good title',
+        price: -40,
+      })
+      .expect(400);
+  });
 
   it('correctly updates the ticket', async () => {});
 });
