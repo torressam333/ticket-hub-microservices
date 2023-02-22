@@ -40,9 +40,10 @@ afterAll(async () => {
 });
 
 global.signup = () => {
+  const generateRandomId = new mongoose.Types.ObjectId().toHexString();
   // Build jwt payload {id, email}
   const payload = {
-    id: '16dkjw523122',
+    id: generateRandomId,
     email: 'test@test.com',
   };
 

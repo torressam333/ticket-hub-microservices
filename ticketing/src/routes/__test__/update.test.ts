@@ -28,7 +28,23 @@ describe('Updating tickets', () => {
       .expect(401);
   });
 
-  it('returns a 401 if a user does not own the ticket', async () => {});
+  it('returns a 401 if a user does not own the ticket', async () => {
+    const createTicketResponse = await request(app)
+      .post('/api/tickets')
+      .set('Cookie', signup())
+      .send({ title: 'Testing', price: 20 });
+
+    const ticketId = createTicketResponse.body.id;
+
+    await request(app)
+      .put(`/api/tickets/${ticketId}`)
+      .set('Cookie', signup())
+      .send({
+        title: 'Some Title',
+        price: 20,
+      })
+      .expect(401);
+  });
 
   it('returns a 400 if the payload has incorrect values', async () => {});
 

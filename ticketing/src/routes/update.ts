@@ -15,10 +15,12 @@ updateRouter.put(
   '/api/tickets/:id',
   requireAuth,
   async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const ticket = await Ticket.findById(id);
+    const ticket = await Ticket.findById(req.params.id);
 
     if (!ticket) throw new NotFoundError();
+
+    if (ticket.userId !== req.currentUser!.id)
+      throw new UnauthorizedError('Not authorized to perform this action');
 
     res.send(ticket);
   }
