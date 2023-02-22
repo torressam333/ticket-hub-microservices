@@ -73,5 +73,31 @@ describe('Updating tickets', () => {
       .expect(400);
   });
 
-  it('correctly updates the ticket', async () => {});
+  it('correctly updates the ticket', async () => {
+    const cookie = signup();
+
+    // Create ticket to be updated
+    const response = await request(app)
+      .post('/api/tickets')
+      .set('Cookie', cookie)
+      .send({ title: 'Concert', price: 250 });
+
+    // Edit the same ticket created above
+    await request(app)
+      .put(`/api/tickets/${response.body.id}`)
+      .set('Cookie', cookie)
+      .send({
+        title: 'Blink 182 Concert',
+        price: 400,
+      })
+      .expect(200);
+
+    // Re-fetch ticket to ensure updates took place
+    const ticketRes = await request(app)
+      .get(`/api/tickets/${response.body.id}`)
+      .send();
+
+    expect(ticketRes.body.title).toEqual('Blink 182 Concert');
+    expect(ticketRes.body.price).toEqual(400);
+  });
 });

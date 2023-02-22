@@ -28,10 +28,20 @@ updateRouter.put(
 
     if (!ticket) throw new NotFoundError();
 
+    // Ensure ticket belongs to logged in user
     if (ticket.userId !== req.currentUser!.id)
       throw new UnauthorizedError('Not authorized to perform this action');
 
-    res.send(ticket);
+    // Update ticket in memory
+    ticket.set({
+      title: req.body.title,
+      price: req.body.price,
+    });
+
+    // Persist to Mongodb
+    await ticket.save();
+
+    res.status(200).json(ticket);
   }
 );
 
