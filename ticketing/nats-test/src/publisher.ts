@@ -11,4 +11,16 @@ const stan = nats.connect('ticketing', 'abc', {
 // Wait for client to successfully connect to n.s.s via "connect" emitted event
 stan.on('connect', () => {
   console.log('pub is connected to nats');
+
+  const data = {
+    id: '123',
+    title: 'Concert',
+    price: 20,
+  };
+
+  const stringified = JSON.stringify(data);
+
+  stan.publish('ticket:created', stringified, () => {
+    console.log('Ticket created event published');
+  });
 });
