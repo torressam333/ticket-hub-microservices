@@ -3,6 +3,9 @@
  */
 import nats from 'node-nats-streaming';
 
+// Remove metadata from cli output
+console.clear();
+
 // Create "client" to connect to streaming server
 const stan = nats.connect('ticketing', 'abc', {
   url: 'http://localhost:4222',
