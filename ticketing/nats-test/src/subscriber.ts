@@ -2,12 +2,13 @@
  * Dedicated to be a listener for events of pub-sub
  */
 import nats, { Message } from 'node-nats-streaming';
+import { randomBytes } from 'crypto';
 
 // Remove metadata from cli output
 console.clear();
 
 // Create "client" to connect to streaming server
-const stan = nats.connect('ticketing', '123', {
+const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
   url: 'http://localhost:4222',
 });
 
