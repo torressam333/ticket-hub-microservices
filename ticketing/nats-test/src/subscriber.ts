@@ -15,11 +15,15 @@ const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
 stan.on('connect', () => {
   console.log('subscriber connected to nats');
 
+  // Do manual ack check that even successfully processed
+  const options = stan.subscriptionOptions().setManualAckMode(true);
+
   // Subscribe to specific emitted event + queue group to prevent
   // duplicate subscription events
   const subscription = stan.subscribe(
     'ticket:created',
-    'orders-service-queue-group'
+    'orders-service-queue-group',
+    options
   );
 
   subscription.on('message', (msg: Message) => {
@@ -28,5 +32,8 @@ stan.on('connect', () => {
     if (typeof data === 'string') {
       console.log(`Received event #${msg.getSequence()}, with data ${data}`);
     }
+
+    // Must manually ack event for nats to finish processing any retries
+    msg.ack();
   });
 });
