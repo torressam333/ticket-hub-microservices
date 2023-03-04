@@ -15,6 +15,11 @@ const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
 stan.on('connect', () => {
   console.log('subscriber connected to nats');
 
+  stan.on('close', () => {
+    console.log('nats connection has been closed');
+    process.exit();
+  });
+
   // Do manual ack check that even successfully processed
   const options = stan.subscriptionOptions().setManualAckMode(true);
 
@@ -37,3 +42,9 @@ stan.on('connect', () => {
     msg.ack();
   });
 });
+
+// Handle the stop/close/restarting of any downstream subscribers
+// Watch for interrupt or terminate signal. Incercept these req's and close the connection in node nats server.
+stan.on('SIGINT', () => stan.close());
+stan.on('SIGTERM', () => stan.close());
+stan.on('SIGQUIT', () => stan.close());
