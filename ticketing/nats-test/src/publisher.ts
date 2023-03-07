@@ -16,7 +16,7 @@ stan.on('connect', () => {
   console.log('pub is connected to nats');
 
   const data = {
-    id: '123',
+    id: 'adas123',
     title: 'Concert',
     price: 20,
   };
