@@ -21,13 +21,16 @@ stan.on('connect', () => {
   });
 
   // Do manual ack check that even successfully processed
-  const options = stan.subscriptionOptions().setManualAckMode(true);
+  const options = stan
+    .subscriptionOptions()
+    .setManualAckMode(true)
+    .setDeliverAllAvailable();
 
   // Subscribe to specific emitted event + queue group to prevent
   // duplicate subscription events
   const subscription = stan.subscribe(
     'ticket:created',
-    'orders-service-queue-group',
+    // 'orders-service-queue-group', temp comment out
     options
   );
 
