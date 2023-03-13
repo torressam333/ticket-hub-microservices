@@ -24,13 +24,14 @@ stan.on('connect', () => {
   const options = stan
     .subscriptionOptions()
     .setManualAckMode(true)
-    .setDeliverAllAvailable();
+    .setDeliverAllAvailable()
+    .setDurableName('orders-service');
 
   // Subscribe to specific emitted event + queue group to prevent
   // duplicate subscription events
   const subscription = stan.subscribe(
     'ticket:created',
-    // 'orders-service-queue-group', temp comment out
+    'orders-service-queue-group',
     options
   );
 
