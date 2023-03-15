@@ -20,31 +20,8 @@ stan.on('connect', () => {
     process.exit();
   });
 
-  // Do manual ack check that even successfully processed
-  const options = stan
-    .subscriptionOptions()
-    .setManualAckMode(true)
-    .setDeliverAllAvailable()
-    .setDurableName('orders-service');
-
-  // Subscribe to specific emitted event + queue group to prevent
-  // duplicate subscription events
-  const subscription = stan.subscribe(
-    'ticket:created',
-    'orders-service-queue-group',
-    options
-  );
-
-  subscription.on('message', (msg: Message) => {
-    const data = msg.getData();
-
-    if (typeof data === 'string') {
-      console.log(`Received event #${msg.getSequence()}, with data ${data}`);
-    }
-
-    // Must manually ack event for nats to finish processing any retries
-    msg.ack();
-  });
+  // Handles all connection and event handling for nats
+  new TicketCreatedSubscriber(stan).listen();
 });
 
 // Handle the stop/close/restarting of any downstream subscribers
@@ -97,5 +74,17 @@ abstract class Subscriber {
     return typeof data === 'string'
       ? JSON.parse(data)
       : JSON.parse(data.toString('utf8'));
+  }
+}
+
+class TicketCreatedSubscriber extends Subscriber {
+  subject = 'ticket:created';
+  queueGroupName = 'payments-service-queue-group';
+
+  onMessage(data: any, msg: Message) {
+    console.log('Event data', data);
+
+    // If event is properly received
+    msg.ack();
   }
 }
