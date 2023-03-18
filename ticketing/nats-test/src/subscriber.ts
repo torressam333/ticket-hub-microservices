@@ -26,6 +26,6 @@ stan.on('connect', () => {
 });
 
 // Handle the stop/close/restarting of any downstream subscribers
-// Watch for interrupt or terminate signal. Incercept these req's and close the connection in node nats server.
+// Watch for interrupt or terminate signal. Incercept these req's and close the connection in node nats server
 process.on('SIGINT', () => stan.close());
 process.on('SIGTERM', () => stan.close());
