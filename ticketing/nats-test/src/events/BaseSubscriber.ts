@@ -1,9 +1,17 @@
 import { Message, Stan } from 'node-nats-streaming';
+import { Subjects } from './subjects';
 
-export abstract class Subscriber {
-  abstract subject: string;
+// Describe generic event
+interface Event {
+  subject: Subjects;
+  data: any;
+}
+
+// Subscriber must have a custom Type (event) provided
+export abstract class Subscriber<T extends Event> {
+  abstract subject: T['subject'];
   abstract queueGroupName: string;
-  abstract onMessage(data: any, msg: Message): void;
+  abstract onMessage(data: T['data'], msg: Message): void;
   private client: Stan;
   protected ackWait = 5 * 1000;
 
