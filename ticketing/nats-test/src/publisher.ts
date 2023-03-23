@@ -22,16 +22,4 @@ stan.on('connect', () => {
     title: 'SOme event',
     price: 45,
   });
-
-  // const data = {
-  //   id: 'adas123',
-  //   title: 'Concert',
-  //   price: 20,
-  // };
-
-  // const stringified = JSON.stringify(data);
-
-  // stan.publish('ticket:created', stringified, () => {
-  //   console.log('Ticket created event published');
-  // });
 });
