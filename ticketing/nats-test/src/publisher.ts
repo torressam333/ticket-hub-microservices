@@ -13,13 +13,17 @@ const stan = nats.connect('ticketing', 'abc', {
 });
 
 // Wait for client to successfully connect to n.s.s via "connect" emitted event
-stan.on('connect', () => {
+stan.on('connect', async () => {
   console.log('pub is connected to nats');
   const publisher = new TicketCreatedPublisher(stan);
 
-  publisher.publish({
-    id: 'FakeIdForNow12345',
-    title: 'SOme event',
-    price: 45,
-  });
+  try {
+    await publisher.publish({
+      id: 'FakeIdForNow12345',
+      title: 'SOme event',
+      price: 45,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 });
