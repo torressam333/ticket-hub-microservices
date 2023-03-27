@@ -1,6 +1,4 @@
-import { Publisher } from '../../../../common/src/events/BasePublisher';
-import { TicketCreatedEvent } from './TicketCreatedEvent';
-import { Subjects } from './subjects';
+import { Publisher, TicketCreatedEvent, Subjects } from '@torressam/common';
 
 export class TicketCreatedPublisher extends Publisher<TicketCreatedEvent> {
   readonly subject: Subjects.TicketCreated = Subjects.TicketCreated;

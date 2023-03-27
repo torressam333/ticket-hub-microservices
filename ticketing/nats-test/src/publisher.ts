@@ -22,6 +22,7 @@ stan.on('connect', async () => {
       id: 'FakeIdForNow12345',
       title: 'SOme event',
       price: 45,
+      userId: '123Fake',
     });
   } catch (error) {
     console.error(error);
