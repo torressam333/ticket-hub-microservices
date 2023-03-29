@@ -29,6 +29,8 @@ newTicketRouter.post(
       // Save to mongoDB
       await ticket.save();
 
+      // Publish event telling other services that new ticket is created
+
       res.status(201).json(ticket);
     } catch (error) {}
   }
