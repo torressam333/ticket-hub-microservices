@@ -1,5 +1,6 @@
 import app from './app';
 import mongoose from 'mongoose';
+import { natsWrapper } from './NatsWrapper';
 
 // Mongoose connect fn
 const start = async () => {
@@ -8,6 +9,12 @@ const start = async () => {
   if (!process.env.MONGO_URI) throw new Error('Mongo uri is undefined');
 
   try {
+    await natsWrapper.connect(
+      'ticketing',
+      'randomValue3j3jss',
+      'http://nats-srv:4222'
+    );
+
     // Added per warning about false being default in mongo v7
     mongoose.set('strictQuery', true);
 

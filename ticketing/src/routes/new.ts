@@ -31,12 +31,12 @@ newTicketRouter.post(
       await ticket.save();
 
       // Publish event telling other services that new ticket is created
-      new TicketCreatedPublisher(client).publish({
-        id: ticket.id,
-        title: ticket.title,
-        price: title.price,
-        userId: ticket.userId,
-      });
+      // new TicketCreatedPublisher(client).publish({
+      //   id: ticket.id,
+      //   title: ticket.title,
+      //   price: title.price,
+      //   userId: ticket.userId,
+      // });
 
       res.status(201).json(ticket);
     } catch (error) {}
