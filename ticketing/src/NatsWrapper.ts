@@ -14,6 +14,7 @@ class NatsWrapper {
 
       // If failed to connect
       this._client!.on('error', (err) => {
+        console.log('error', err);
         reject(err);
       });
     });
