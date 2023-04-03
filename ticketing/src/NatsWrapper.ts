@@ -3,17 +3,24 @@ import nats, { Stan } from 'node-nats-streaming';
 class NatsWrapper {
   private _client?: Stan;
 
+  get client() {
+    if (!this._client)
+      throw new Error('Cannot access NATS client before connecting');
+
+    return this._client;
+  }
+
   connect(clusterId: string, clientId: string, url: string) {
     this._client = nats.connect(clusterId, clientId, { url });
 
     return new Promise<void>((resolve, reject) => {
-      this._client!.on('connect', () => {
+      this.client.on('connect', () => {
         console.log('CONNECTED TO NATS');
         resolve();
       });
 
       // If failed to connect
-      this._client!.on('error', (err) => {
+      this.client.on('error', (err) => {
         console.log('error', err);
         reject(err);
       });
@@ -21,4 +28,5 @@ class NatsWrapper {
   }
 }
 
+// To be used as singleton anywhere in app
 export const natsWrapper = new NatsWrapper();

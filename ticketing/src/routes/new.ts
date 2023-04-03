@@ -3,6 +3,7 @@ import { requireAuth, validateRequest } from '@torressam/common';
 import { body } from 'express-validator';
 import Ticket from '../models/ticket';
 import { TicketCreatedPublisher } from '../events/publishers/TicketCreatedPublisher';
+import { natsWrapper } from '../NatsWrapper';
 
 const newTicketRouter = express.Router();
 
@@ -31,12 +32,12 @@ newTicketRouter.post(
       await ticket.save();
 
       // Publish event telling other services that new ticket is created
-      // new TicketCreatedPublisher(client).publish({
-      //   id: ticket.id,
-      //   title: ticket.title,
-      //   price: title.price,
-      //   userId: ticket.userId,
-      // });
+      new TicketCreatedPublisher(natsWrapper.client).publish({
+        id: ticket.id,
+        title: ticket.title,
+        price: title.price,
+        userId: ticket.userId,
+      });
 
       res.status(201).json(ticket);
     } catch (error) {}
