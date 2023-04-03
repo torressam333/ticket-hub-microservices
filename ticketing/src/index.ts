@@ -15,6 +15,17 @@ const start = async () => {
       'http://nats-srv:4222'
     );
 
+    natsWrapper.client.on('close', () => {
+      console.log('NATS Connection Closed');
+
+      process.exit();
+    });
+
+    // Handle the stop/close/restarting of any downstream subscribers
+    // Watch for interrupt or terminate signal. Incercept these req's and close the connection in node nats server
+    process.on('SIGINT', () => natsWrapper.client.close());
+    process.on('SIGTERM', () => natsWrapper.client.close());
+
     // Added per warning about false being default in mongo v7
     mongoose.set('strictQuery', true);
 
