@@ -8,6 +8,10 @@ export class TicketCreatedSubscriber extends Subscriber<TicketCreatedEvent> {
   onMessage(data: TicketCreatedEvent['data'], msg: Message) {
     console.log('Event data', data);
 
+    console.log(data.id);
+    console.log(data.title);
+    console.log(data.price);
+
     // If event is properly received
     msg.ack();
   }

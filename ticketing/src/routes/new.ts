@@ -35,7 +35,7 @@ newTicketRouter.post(
       new TicketCreatedPublisher(natsWrapper.client).publish({
         id: ticket.id,
         title: ticket.title,
-        price: title.price,
+        price: ticket.price,
         userId: ticket.userId,
       });
 
