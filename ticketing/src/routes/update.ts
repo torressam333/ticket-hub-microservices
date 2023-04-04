@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import Ticket from '../models/ticket';
-import mongoose from 'mongoose';
 import { body } from 'express-validator';
 import {
   NotFoundError,
@@ -8,6 +7,8 @@ import {
   requireAuth,
   UnauthorizedError,
 } from '@torressam/common';
+import { TicketUpdatedPublisher } from '../../nats-test/src/events/TicketUpdatedPublisher';
+import { natsWrapper } from '../NatsWrapper';
 
 const updateRouter = express.Router();
 
@@ -40,6 +41,14 @@ updateRouter.put(
 
     // Persist to Mongodb
     await ticket.save();
+
+    // Publish ticket updated event
+    new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
 
     res.status(200).json(ticket);
   }
