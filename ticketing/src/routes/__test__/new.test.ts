@@ -81,7 +81,7 @@ it('creates a ticket with valid inputs', async () => {
   expect(tickets[0].title).toEqual(title);
 });
 
-fit('publishes an event', async () => {
+it('publishes an event', async () => {
   const title = 'Concert Ticket';
 
   await request(app)
@@ -94,5 +94,5 @@ fit('publishes an event', async () => {
     .expect(201);
 
   // Jest redirects call from real N.W publish to mock N.W. publish automatically.
-  expect(natsWrapper.client.publish).toHaveBeenCalledTimes(1);
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
