@@ -14,6 +14,8 @@ declare global {
 // Added per warning about false being default in mongo v7
 mongoose.set('strictQuery', true);
 
+jest.mock('../NatsWrapper');
+
 // Before tests run - set up copy of mongodb in memory
 beforeAll(async () => {
   process.env.JWT_KEY = 'nonsense_for_testing';

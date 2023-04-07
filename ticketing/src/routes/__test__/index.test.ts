@@ -1,8 +1,6 @@
 import request from 'supertest';
 import app from '../../app';
 
-jest.mock('../../NatsWrapper');
-
 const createTicket = (title: string, price: number) => {
   const cookie = signup();
 
