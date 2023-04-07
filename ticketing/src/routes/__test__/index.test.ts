@@ -17,9 +17,10 @@ describe('show all tickets on index page', () => {
     // 1. Create a couple of tickets
     await createTicket('Concert', 100);
     await createTicket('Football Game', 300);
+    await createTicket('Something else', 45);
 
     const response = await request(app).get('/api/tickets').send().expect(200);
 
-    expect(response.body.length).toEqual(2);
+    expect(response.body.length).toEqual(3);
   });
 });
