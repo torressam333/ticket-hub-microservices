@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../../app';
 import Ticket from '../../models/ticket';
+import { natsWrapper } from '../../NatsWrapper';
 
 it('has a route handler listening to /api/tickets for post requests', async () => {
   const response = await request(app).post('/api/tickets').send({});
@@ -78,4 +79,20 @@ it('creates a ticket with valid inputs', async () => {
   expect(tickets.length).toEqual(1);
   expect(tickets[0].price).toEqual(20);
   expect(tickets[0].title).toEqual(title);
+});
+
+fit('publishes an event', async () => {
+  const title = 'Concert Ticket';
+
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', global.signup())
+    .send({
+      title,
+      price: 200,
+    })
+    .expect(201);
+
+  // Jest redirects call from real N.W publish to mock N.W. publish automatically.
+  expect(natsWrapper.client.publish).toHaveBeenCalledTimes(1);
 });

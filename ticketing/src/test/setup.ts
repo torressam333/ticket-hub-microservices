@@ -26,6 +26,9 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  // i.e. Useful for nats wrapper publish call
+  jest.clearAllMocks();
+
   // Delete all collections before each test to start anew
   const collections = await mongoose.connection.db.collections();
 
