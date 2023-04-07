@@ -2,6 +2,8 @@ import request from 'supertest';
 import app from '../../app';
 import mongoose from 'mongoose';
 
+jest.mock('../../NatsWrapper');
+
 describe('Updating tickets', () => {
   it('returns a 404 if a ticket id does not exist', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
