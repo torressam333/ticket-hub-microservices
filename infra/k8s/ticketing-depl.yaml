@@ -21,12 +21,11 @@ spec:
             - name: NATS_CLIENT_ID
               valueFrom:
                 fieldRef:
-                  fieldPath: metadata.name #Use pods name as nats client id for easier identification in nats logs 
+                  fieldPath: metadata.name #Use pods name as nats client id for easier identification in nats logs
             - name: NATS_URL
               value: http://nats-srv:4222
             - name: NATS_CLUSTER_ID
               value: ticketing
-              value: http://nats-srv:4222
             - name: MONGO_URI
               value: mongodb://ticketing-mongo-srv:27017/ticketing
             - name: JWT_KEY
