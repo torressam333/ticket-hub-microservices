@@ -7,12 +7,17 @@ const start = async () => {
   // Check for required env vars
   if (!process.env.JWT_KEY) throw new Error('JWT_KEY is undefined');
   if (!process.env.MONGO_URI) throw new Error('Mongo uri is undefined');
+  if (!process.env.NATS_CLUSTER_ID)
+    throw new Error('NATS cluster id undefined');
+  if (!process.env.NATS_CLIENT_ID)
+    throw new Error('NATS client id is undefined');
+  if (!process.env.NATS_URL) throw new Error('NATS url is undefined');
 
   try {
     await natsWrapper.connect(
-      'ticketing',
-      'randomValue3j3jss',
-      'http://nats-srv:4222'
+      process.env.NATS_CLUSTER_ID,
+      process.env.NATS_CLIENT_ID,
+      process.env.NATS_URL
     );
 
     natsWrapper.client.on('close', () => {
