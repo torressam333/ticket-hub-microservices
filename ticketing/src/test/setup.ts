@@ -68,3 +68,4 @@ global.signup = () => {
   // Return mock cooke with encoded data
   return [`session=${base64}`];
 };
+
