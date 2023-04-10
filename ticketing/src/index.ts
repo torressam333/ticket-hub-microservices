@@ -13,6 +13,7 @@ const start = async () => {
     throw new Error('NATS client id is undefined');
   if (!process.env.NATS_URL) throw new Error('NATS url is undefined');
 
+  // Pull from ticketing depl file in k8s
   try {
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID,
