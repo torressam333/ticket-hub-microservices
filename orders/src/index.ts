@@ -13,7 +13,7 @@ const start = async () => {
     throw new Error('NATS client id is undefined');
   if (!process.env.NATS_URL) throw new Error('NATS url is undefined');
 
-  // Pull from ticketing depl file in k8s
+  // Pull from Orders depl file in k8s
   try {
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID,
@@ -35,17 +35,17 @@ const start = async () => {
     // Added per warning about false being default in mongo v7
     mongoose.set('strictQuery', true);
 
-    // Ticketing mongo-srv cluster ip service ip address needed (kubectl get services)
+    // Orders mongo-srv cluster ip service ip address needed (kubectl get services)
     await mongoose.connect(process.env.MONGO_URI);
 
-    console.log('Ticketing mongo srv connected properly...');
+    console.log('Orders mongo srv connected properly...');
   } catch (error) {
     console.log('Something went wrong: ', error);
   }
 
   // K8S listening on port 3000 (@see auth-depl.yaml file)
   app.listen(3000, async () =>
-    console.log('Ticketing service listening on port 3000')
+    console.log('Orders service listening on port 3000')
   );
 };
 

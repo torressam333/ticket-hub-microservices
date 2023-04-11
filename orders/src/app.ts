@@ -4,6 +4,10 @@ import cookieSession from 'cookie-session';
 
 // MW Imports/Error class imports
 import { errorHandler, NotFoundError, currentUser } from '@torressam/common';
+import newOrderRouter from './routes/new';
+import showOrderRouter from './routes/show';
+import indexOrderRouter from './routes/index';
+import deleteOrderRouter from './routes/update';
 
 // Create express server
 const app = express();
@@ -23,6 +27,12 @@ app.use(
 
 // Middleware
 app.use(currentUser);
+
+// Use Routers
+app.use(indexOrderRouter);
+app.use(newOrderRouter);
+app.use(showOrderRouter);
+app.use(deleteOrderRouter);
 
 // Fallback route handling - route not found at this point
 app.all('*', async () => {
