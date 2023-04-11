@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-depl
+spec:
+  replicas: 1
+  # Step 1/2: Tell deployment how to find pods to create
+  selector:
+    matchLabels:
+      app: orders
+  # How to create each pod
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+        - name: orders
+          image: torressam/orders
+          env:
+            - name: MONGO_URI
+              value: mongodb://orders-mongo-srv:27017/orders
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret #key inside of the k8s cluster
+                  key: JWT_KEY
+---
+# Kubernates service to go with above pod
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-srv
+spec:
+  selector:
+    # Find all pods with label of app:orders
+    app: orders
+  ports:
+    - name: orders
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
