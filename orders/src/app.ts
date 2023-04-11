@@ -7,7 +7,7 @@ import { errorHandler, NotFoundError, currentUser } from '@torressam/common';
 import newOrderRouter from './routes/new';
 import showOrderRouter from './routes/show';
 import indexOrderRouter from './routes/index';
-import deleteOrderRouter from './routes/update';
+import deleteOrderRouter from './routes/delete';
 
 // Create express server
 const app = express();
