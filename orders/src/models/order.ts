@@ -20,3 +20,42 @@ interface OrderModel extends mongoose.Model<OrderDoc> {
   // Builds order document
   build(attrs: OrderAttrs): OrderDoc;
 }
+
+const orderSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+    },
+    expiresAt: {
+      type: mongoose.Schema.Types.Date,
+      required: false, // may never want ticket to expire
+    },
+    ticket: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Ticket',
+    },
+  },
+  {
+    toJSON: {
+      // Delete _id from order response
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
+  }
+);
+
+// Provide build method on Order model
+orderSchema.statics.build = (attrs: OrderAttrs) => {
+  return new Order(attrs);
+};
+
+const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
+
+export default Order;
