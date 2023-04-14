@@ -52,6 +52,7 @@ const orderSchema = new mongoose.Schema(
 );
 
 // Provide build method on Order model
+// Add as static to avoid need of instantiation in other places
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);
 };
