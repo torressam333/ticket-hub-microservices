@@ -33,7 +33,6 @@ const orderSchema = new mongoose.Schema(
     },
     expiresAt: {
       type: mongoose.Schema.Types.Date,
-      required: false, // may never want ticket to expire
     },
     ticket: {
       type: mongoose.Schema.Types.ObjectId,
