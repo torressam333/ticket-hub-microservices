@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
+import { OrderStatus } from '@torressam/common';
 
 // Properties to create an order
 interface OrderAttrs {
   userId: string;
-  status: string;
+  status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc; // Is instance of ticket (referential relationship)
 }
@@ -11,7 +12,7 @@ interface OrderAttrs {
 // Final set of properties when an order is created
 interface OrderDoc extends mongoose.Document {
   userId: string;
-  status: string;
+  status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
 }
@@ -30,6 +31,7 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
+      enum: Object.values(OrderStatus),
     },
     expiresAt: {
       type: mongoose.Schema.Types.Date,
@@ -50,7 +52,7 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-// Provide build method on Order model
+// Provide extra build method on Order model
 // Add as static to avoid need of instantiation in other places
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);
