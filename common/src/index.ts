@@ -18,3 +18,6 @@ export * from './events/BasePublisher';
 export * from './events/subjects';
 export * from './events/TicketCreatedEvent';
 export * from './events/TicketUpdatedEvent';
+
+// Types and enum exports
+export * from './events/types/order-status';
