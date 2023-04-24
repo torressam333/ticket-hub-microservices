@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import { requireAuth, validateRequest } from '@torressam/common';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
+import Ticket from '../models/ticket';
+import Order from '../models/order';
 
 const newOrderRouter = express.Router();
 
@@ -16,7 +18,17 @@ newOrderRouter.post(
       .withMessage('TicketID is required'),
   ],
   validateRequest,
-  async (req: Request, res: Response) => {}
+  async (req: Request, res: Response) => {
+    // 1. Find ticket in DB that user is trying to order
+    const ticket = await Ticket.findById(req.body.ticketId);
+    // 2. Make sure ticket is not already reserved
+
+    // 3. Calculate exp date for the order (15 mins max)
+
+    // 4. Build the order and save to DB
+
+    // 5. Emit event to other services that an order has been created
+  }
 );
 
 export default newOrderRouter;
