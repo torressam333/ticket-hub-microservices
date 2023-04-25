@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import { OrderStatus } from '@torressam/common';
 import { TicketDoc } from './ticket';
 
+export { OrderStatus };
+
 // Properties to create an order
 interface OrderAttrs {
   userId: string;

@@ -4,6 +4,7 @@
  * will not and should not live in the common library
  */
 import mongoose from 'mongoose';
+import Order, { OrderStatus } from './order';
 
 interface TicketAttrs {
   title: string;
@@ -13,6 +14,7 @@ interface TicketAttrs {
 export interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  isReserved(): Promise<boolean>;
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -41,9 +43,25 @@ const ticketSchema = new mongoose.Schema(
   }
 );
 
-// Add build method as static on this schema
+// Add build method as static on this schema (model) directly
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket(attrs);
+};
+
+// Add isReserved to ticket *Document* not model itself
+ticketSchema.methods.isReserved = async function () {
+  const existingOrder = await Order.findOne({
+    ticket: this,
+    status: {
+      $in: [
+        OrderStatus.created,
+        OrderStatus.AwaitingPayment,
+        OrderStatus.complete,
+      ],
+    },
+  });
+
+  return !!existingOrder;
 };
 
 const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);

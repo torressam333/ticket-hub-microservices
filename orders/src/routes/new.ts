@@ -1,5 +1,10 @@
 import express, { Request, Response } from 'express';
-import { NotFoundError, requireAuth, validateRequest } from '@torressam/common';
+import {
+  NotFoundError,
+  requireAuth,
+  validateRequest,
+  BadRequestError,
+} from '@torressam/common';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
 import Ticket from '../models/ticket';
@@ -26,7 +31,11 @@ newOrderRouter.post(
 
     if (!ticket) throw new NotFoundError();
 
-    // 2. Make sure ticket is not already reserved
+    // 2. Make sure ticket related to a specific order is not already reserved
+    const isReserved = await ticket.isReserved();
+
+    if (isReserved)
+      throw new BadRequestError('Ticket has already been reserved');
 
     // 3. Calculate exp date for the order (15 mins max)
 
