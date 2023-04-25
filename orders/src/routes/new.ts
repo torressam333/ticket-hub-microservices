@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { requireAuth, validateRequest } from '@torressam/common';
+import { NotFoundError, requireAuth, validateRequest } from '@torressam/common';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
 import Ticket from '../models/ticket';
@@ -19,8 +19,13 @@ newOrderRouter.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
+    const { ticketId } = req.body;
+
     // 1. Find ticket in DB that user is trying to order
-    const ticket = await Ticket.findById(req.body.ticketId);
+    const ticket = await Ticket.findById(ticketId);
+
+    if (!ticket) throw new NotFoundError();
+
     // 2. Make sure ticket is not already reserved
 
     // 3. Calculate exp date for the order (15 mins max)
