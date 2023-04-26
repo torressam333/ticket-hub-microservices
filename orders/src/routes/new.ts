@@ -52,7 +52,10 @@ newOrderRouter.post(
 
     await order.save();
 
-    // 5. Emit event to other services that an order has been created
+    // 5. TODO: Emit event to other services that an order has been created
+
+    // 6. Return response
+    return res.status(201).send(order);
   }
 );
 
