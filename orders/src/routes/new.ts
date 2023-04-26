@@ -11,6 +11,7 @@ import Ticket from '../models/ticket';
 import Order from '../models/order';
 
 const newOrderRouter = express.Router();
+const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 
 newOrderRouter.post(
   '/api/orders',
@@ -38,6 +39,8 @@ newOrderRouter.post(
       throw new BadRequestError('Ticket has already been reserved');
 
     // 3. Calculate exp date for the order (15 mins max)
+    const expiration = new Date();
+    expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS);
 
     // 4. Build the order and save to DB
 
