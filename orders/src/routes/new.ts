@@ -43,6 +43,14 @@ newOrderRouter.post(
     expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS);
 
     // 4. Build the order and save to DB
+    const order = Order.build({
+      userId: req.currentUser!.id,
+      status: OrderStatus.Created,
+      expiresAt: expiration,
+      ticket,
+    });
+
+    await order.save();
 
     // 5. Emit event to other services that an order has been created
   }
