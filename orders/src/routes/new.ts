@@ -8,7 +8,7 @@ import {
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
 import Ticket from '../models/ticket';
-import Order from '../models/order';
+import Order, { OrderStatus } from '../models/order';
 
 const newOrderRouter = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
