@@ -65,5 +65,22 @@ describe('Orders Service', () => {
       .expect(400);
   });
 
-  it('returns a ticket successfully', async () => {});
+  it('returns a ticket successfully', async () => {
+    // Create and persist ticket
+    const ticket = Ticket.build({
+      title: 'Snoop Dogg Ticket',
+      price: 400,
+    });
+
+    await ticket.save();
+
+    // Attempt to reserve ticket
+    await request(app)
+      .post('/api/orders')
+      .set('Cookie', global.signup())
+      .send({ ticketId: ticket.id })
+      .expect(201);
+  });
+
+  it.todo('emits an order created event');
 });
