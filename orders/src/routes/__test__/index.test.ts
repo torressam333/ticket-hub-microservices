@@ -1,7 +1,5 @@
 import request from 'supertest';
 import app from '../../app';
-import Order, { OrderStatus } from '../../models/order';
-import mongoose from 'mongoose';
 import Ticket from '../../models/ticket';
 
 describe('Orders Service', () => {
