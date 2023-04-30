@@ -45,7 +45,7 @@ describe('Orders Service', () => {
   });
 });
 
-// Helper Function
+// Helper Function (keep building tickets dry)
 const buildTicket = async () => {
   const ticket = Ticket.build({
     title: 'Music Event',
