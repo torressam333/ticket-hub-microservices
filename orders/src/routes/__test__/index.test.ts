@@ -42,6 +42,9 @@ describe('Orders Service', () => {
     expect(userTwoOrders.body.length).toEqual(2);
     expect(orderOne.id).toEqual(userTwoOrders.body[0].id);
     expect(orderTwo.id).toEqual(userTwoOrders.body[1].id);
+
+    expect(userTwoOrders.body[0].ticket.id).toEqual(ticket2.id);
+    expect(userTwoOrders.body[1].ticket.id).toEqual(ticket3.id);
   });
 });
 
