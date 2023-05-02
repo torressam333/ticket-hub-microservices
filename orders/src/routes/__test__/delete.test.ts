@@ -34,4 +34,6 @@ describe('Orders Service', () => {
 
     expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
   });
+
+  it.todo('emits an order cancelled event');
 });
