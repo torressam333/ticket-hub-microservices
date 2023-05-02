@@ -14,7 +14,7 @@ deleteOrderRouter.delete(
   async (req: Request, res: Response) => {
     // Find specific order
     const { orderId } = req.params;
-    const order = await Order.findById(orderId).populate('ticket');
+    const order = await Order.findById(orderId);
 
     // Order not found
     if (!order) throw new NotFoundError();
@@ -25,6 +25,9 @@ deleteOrderRouter.delete(
 
     // Update order status to be cancelled (soft delete-esque)
     order.status = OrderStatus.Cancelled;
+
+    // Persist updated order
+    await order.save();
 
     res.status(204).send(order);
   }
