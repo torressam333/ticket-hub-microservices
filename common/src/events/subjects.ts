@@ -15,6 +15,8 @@
  * printSubject('some-random-string'); ------> ERROR
  */
 export enum Subjects {
-  TicketCreated = 'ticket:created',
+  TicketCreated = ' ',
   TicketUpdated = 'ticket:updated',
+  OrderCreated = 'order:created',
+  OrderCancelled = 'order:cancelled',
 }
