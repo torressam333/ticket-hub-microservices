@@ -4,11 +4,14 @@ import {
   requireAuth,
   validateRequest,
   BadRequestError,
+  currentUser,
 } from '@torressam/common';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
 import Ticket from '../models/ticket';
 import Order, { OrderStatus } from '../models/order';
+import { natsWrapper } from '../NatsWrapper';
+import { OrderCreatedPublisher } from '../events/publishers/OrderCreatedPublisher';
 
 const newOrderRouter = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
@@ -53,6 +56,12 @@ newOrderRouter.post(
     await order.save();
 
     // 5. TODO: Emit event to other services that an order has been created
+    // new OrderCreatedPublisher(natsWrapper).publish({
+    //   id: order.id,
+    //   status: OrderStatus.Created,
+    //   userId: currentUser,
+    //   expiresAt: JSON.stringify(expiration),
+    // });
 
     // 6. Return response
     return res.status(201).send(order);
