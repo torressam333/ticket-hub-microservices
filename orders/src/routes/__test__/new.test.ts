@@ -82,5 +82,23 @@ describe('Orders Service', () => {
       .expect(201);
   });
 
-  it.todo('emits an order created event', () => {});
+  it('emits an order created event', async () => {
+    // Create and associated order
+    const ticket = Ticket.build({
+      title: 'Snoop Dogg Ticket',
+      price: 400,
+    });
+
+    await ticket.save();
+
+    // Attempt to reserve ticket
+    await request(app)
+      .post('/api/orders')
+      .set('Cookie', global.signup())
+      .send({ ticketId: ticket.id })
+      .expect(201);
+
+    // Route handler now emits event when order is persisted successfully
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+  });
 });
