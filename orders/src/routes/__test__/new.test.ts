@@ -82,5 +82,5 @@ describe('Orders Service', () => {
       .expect(201);
   });
 
-  it.todo('emits an order created event');
+  it.todo('emits an order created event', () => {});
 });
