@@ -4,7 +4,6 @@ import {
   requireAuth,
   validateRequest,
   BadRequestError,
-  currentUser,
 } from '@torressam/common';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
