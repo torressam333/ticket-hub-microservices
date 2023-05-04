@@ -56,12 +56,16 @@ newOrderRouter.post(
     await order.save();
 
     // 5. TODO: Emit event to other services that an order has been created
-    // new OrderCreatedPublisher(natsWrapper).publish({
-    //   id: order.id,
-    //   status: OrderStatus.Created,
-    //   userId: currentUser,
-    //   expiresAt: JSON.stringify(expiration),
-    // });
+    new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price,
+      },
+    });
 
     // 6. Return response
     return res.status(201).send(order);
