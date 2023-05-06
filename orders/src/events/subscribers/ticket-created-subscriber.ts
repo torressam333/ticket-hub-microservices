@@ -7,5 +7,7 @@ export class TicketCreatedSubscriber extends Subscriber<TicketCreatedEvent> {
   subject: Subjects.TicketCreated = Subjects.TicketCreated;
   queueGroupName = 'orders-service';
 
-  onMessage(data: TicketCreatedEvent['data'], msg: Message): void {}
+  onMessage(data: TicketCreatedEvent['data'], msg: Message): void {
+    // TO do pass up data
+  }
 }
