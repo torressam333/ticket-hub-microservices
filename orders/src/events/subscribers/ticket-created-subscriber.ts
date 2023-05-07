@@ -8,7 +8,13 @@ export class TicketCreatedSubscriber extends Subscriber<TicketCreatedEvent> {
   subject: Subjects.TicketCreated = Subjects.TicketCreated;
   queueGroupName = queueGroupName;
 
-  onMessage(data: TicketCreatedEvent['data'], msg: Message): void {
-    // TO do pass up data
+  async onMessage(data: TicketCreatedEvent['data'], msg: Message) {
+    const { title, price } = data;
+    const ticket = Ticket.build({ title, price });
+
+    await ticket.save();
+
+    // No error? ack message
+    msg.ack();
   }
 }
