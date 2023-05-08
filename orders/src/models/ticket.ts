@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import Order, { OrderStatus } from './order';
 
 interface TicketAttrs {
+  id: string;
   title: string;
   price: number;
 }
@@ -45,7 +46,11 @@ const ticketSchema = new mongoose.Schema(
 
 // Add build method as static on this schema (model) directly
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
-  return new Ticket(attrs);
+  return new Ticket({
+    _id: attrs.id,
+    title: attrs.title,
+    price: attrs.price,
+  });
 };
 
 // Add isReserved to ticket *Document* not model itself
