@@ -32,3 +32,4 @@ export class TicketUpdatedSubscriber extends Subscriber<TicketUpdatedEvent> {
     msg.ack();
   }
 }
+ 

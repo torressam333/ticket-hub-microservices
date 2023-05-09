@@ -1,6 +1,8 @@
 import app from './app';
 import mongoose from 'mongoose';
 import { natsWrapper } from './NatsWrapper';
+import { TicketCreatedSubscriber } from './events/subscribers/ticket-created-subscriber';
+import { TicketUpdatedSubscriber } from './events/ticket-updated-subscriber';
 
 // Mongoose connect fn
 const start = async () => {
@@ -31,6 +33,10 @@ const start = async () => {
     // Watch for interrupt or terminate signal. Incercept these req's and close the connection in node nats server
     process.on('SIGINT', () => natsWrapper.client.close());
     process.on('SIGTERM', () => natsWrapper.client.close());
+
+    // Instantiate Ticket subscribers and listen for traffic
+    new TicketCreatedSubscriber(natsWrapper.client).listen;
+    new TicketUpdatedSubscriber(natsWrapper.client).listen;
 
     // Added per warning about false being default in mongo v7
     mongoose.set('strictQuery', true);
