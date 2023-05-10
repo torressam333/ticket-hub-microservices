@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 // Properties required to build a new Ticket
 interface TicketAttrs {
@@ -13,6 +14,7 @@ interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
   userId: string;
+  version: number;
 }
 
 // Properties which are tied to/added directly on the model to be accessed
@@ -45,6 +47,10 @@ const ticketSchema = new mongoose.Schema(
     },
   }
 );
+
+// Concurrency control by ticket versioning
+ticketSchema.set('versionKey', 'version');
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 // Way to implement TS interface with mongoose model via custom function
 // Now we can call: Ticket.build({}) since custom fn was added to statics list
