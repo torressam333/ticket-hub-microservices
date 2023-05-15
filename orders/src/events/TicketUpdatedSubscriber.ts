@@ -13,7 +13,11 @@ export class TicketUpdatedSubscriber extends Subscriber<TicketUpdatedEvent> {
   queueGroupName = queueGroupName;
 
   async onMessage(data: TicketUpdatedEvent['data'], msg: Message) {
-    const ticket = await Ticket.findById(data.id);
+    // Query for the ticket with the matching id AND prev version from TU:Event
+    const ticket = await Ticket.findOne({
+      _id: data.id,
+      version: data.version - 1,
+    });
 
     if (!ticket) throw new NotFoundError();
 
@@ -32,4 +36,3 @@ export class TicketUpdatedSubscriber extends Subscriber<TicketUpdatedEvent> {
     msg.ack();
   }
 }
- 
