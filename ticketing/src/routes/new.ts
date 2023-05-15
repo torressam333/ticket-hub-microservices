@@ -34,6 +34,7 @@ newTicketRouter.post(
       // Publish event telling other services that new ticket is created
       await new TicketCreatedPublisher(natsWrapper.client).publish({
         id: ticket.id,
+        version: ticket.version,
         title: ticket.title,
         price: ticket.price,
         userId: ticket.userId,
