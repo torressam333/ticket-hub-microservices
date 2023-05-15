@@ -34,6 +34,7 @@ deleteOrderRouter.delete(
     // TODO: Publish event notifying down stream services
     new OrderCancelledPublisher(natsWrapper.client).publish({
       id: order.id,
+      version: order.version,
       ticket: {
         id: order.ticket.id,
         price: order.ticket.price,
