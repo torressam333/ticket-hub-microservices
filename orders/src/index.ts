@@ -1,7 +1,7 @@
 import app from './app';
 import mongoose from 'mongoose';
 import { natsWrapper } from './NatsWrapper';
-import { TicketCreatedSubscriber } from './events/subscribers/ticket-created-subscriber';
+import { TicketCreatedSubscriber } from './events/subscribers/TicketCreatedSubscriber';
 import { TicketUpdatedSubscriber } from './events/TicketUpdatedSubscriber';
 
 // Mongoose connect fn
