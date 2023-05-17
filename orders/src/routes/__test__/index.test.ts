@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../../app';
 import Ticket from '../../models/ticket';
+import mongoose from 'mongoose';
 
 describe('Orders Service', () => {
   it('fetches orders for a particular user', async () => {
@@ -51,6 +52,7 @@ describe('Orders Service', () => {
 // Helper Function (keep building tickets dry)
 const buildTicket = async () => {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Music Event',
     price: 350,
   });

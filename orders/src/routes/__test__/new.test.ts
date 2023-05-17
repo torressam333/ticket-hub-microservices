@@ -41,6 +41,7 @@ describe('Orders Service', () => {
   it('returns an error if ticket is already reserved', async () => {
     // Create and persist ticket
     const ticket = Ticket.build({
+      id: new mongoose.Types.ObjectId().toHexString(),
       title: 'Concert Ticket',
       price: 200,
     });
@@ -68,6 +69,7 @@ describe('Orders Service', () => {
   it('returns a ticket successfully', async () => {
     // Create and persist ticket
     const ticket = Ticket.build({
+      id: new mongoose.Types.ObjectId().toHexString(),
       title: 'Snoop Dogg Ticket',
       price: 400,
     });
@@ -85,6 +87,7 @@ describe('Orders Service', () => {
   it('emits an order created event', async () => {
     // Create and associated order
     const ticket = Ticket.build({
+      id: new mongoose.Types.ObjectId().toHexString(),
       title: 'Snoop Dogg Ticket',
       price: 400,
     });
