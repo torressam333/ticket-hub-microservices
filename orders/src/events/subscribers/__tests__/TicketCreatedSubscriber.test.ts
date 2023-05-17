@@ -45,6 +45,12 @@ describe('TicketCreatedSubscriber', () => {
 
   it('acknowledges the message for event concurrency', async () => {
     // 1. Call setup function
-    // 2. Assert to ensure ack function is called
+    const { subscriber, data, msg } = await setup();
+
+    // 2. Call onMessage function
+    await subscriber.onMessage(data, msg);
+
+    // 3. Assert to ensure ack function is called
+    expect(msg.ack).toHaveBeenCalled();
   });
 });
