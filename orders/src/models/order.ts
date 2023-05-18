@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { OrderStatus } from '@torressam/common';
 import { TicketDoc } from './ticket';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 export { OrderStatus };
 
@@ -56,6 +57,10 @@ const orderSchema = new mongoose.Schema(
     },
   }
 );
+
+// Concurrency code for version handling on orders
+orderSchema.set('versionKey', 'version');
+orderSchema.plugin(updateIfCurrentPlugin);
 
 // Provide extra build method on Order model
 // Add as static to avoid need of instantiation in other places
