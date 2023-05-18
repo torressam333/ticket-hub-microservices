@@ -60,4 +60,16 @@ describe('TicketUpdatedSubscriber', () => {
     // 3. Assert to ensure ack function is called
     expect(msg.ack).toHaveBeenCalled();
   });
+
+  it('does not call ack if the event has a non sequential version number', async () => {
+    const { subscriber, data, msg } = await setup();
+
+    data.version = 100;
+
+    try {
+      await subscriber.onMessage(data, msg);
+    } catch (error) {}
+
+    expect(msg.ack).not.toHaveBeenCalled();
+  });
 });
