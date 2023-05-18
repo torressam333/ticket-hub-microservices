@@ -5,8 +5,8 @@ import {
   Subscriber,
   TicketUpdatedEvent,
 } from '@torressam/common';
-import Ticket from '../models/ticket';
-import { queueGroupName } from './subscribers/queueGroupName';
+import Ticket from '../../models/ticket';
+import { queueGroupName } from './queueGroupName';
 
 export class TicketUpdatedSubscriber extends Subscriber<TicketUpdatedEvent> {
   subject: Subjects.TicketUpdated = Subjects.TicketUpdated;

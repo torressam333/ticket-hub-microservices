@@ -1,7 +1,7 @@
 import { natsWrapper } from '../../../NatsWrapper';
 import { TicketCreatedSubscriber } from '../TicketCreatedSubscriber';
 import { TicketCreatedEvent } from '@torressam/common';
-import mongoose, { set } from 'mongoose';
+import mongoose from 'mongoose';
 import { Message } from 'node-nats-streaming';
 import Ticket from '../../../models/ticket';
 
