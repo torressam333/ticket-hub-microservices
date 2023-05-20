@@ -18,6 +18,10 @@ export class OrderCreatedSubscriber extends Subscriber<OrderCreatedEvent> {
   queueGroupName = queueGroupName;
 
   async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
-    
+    // Find the ticket that order is reserving
+    // If no ticket, error out
+    // Mark ticket as being reserved by setting order id property
+    // Save ticket
+    // Ack the message
   }
 }

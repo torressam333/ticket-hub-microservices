@@ -15,6 +15,7 @@ interface TicketDoc extends mongoose.Document {
   price: number;
   userId: string;
   version: number;
+  orderId?: string; // Optional (string | undefined)
 }
 
 // Properties which are tied to/added directly on the model to be accessed
@@ -35,6 +36,9 @@ const ticketSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
+    },
+    orderId: {
+      type: String,
     },
   },
   {
