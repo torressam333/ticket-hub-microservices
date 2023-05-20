@@ -12,6 +12,7 @@ import {
 } from '@torressam/common';
 import { Message } from 'node-nats-streaming';
 import { queueGroupName } from './queueGroupName';
+import Ticket from '../../models/ticket';
 
 export class OrderCreatedSubscriber extends Subscriber<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
@@ -19,9 +20,18 @@ export class OrderCreatedSubscriber extends Subscriber<OrderCreatedEvent> {
 
   async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
     // Find the ticket that order is reserving
+    const ticket = await Ticket.findById(data.ticket.id);
+
     // If no ticket, error out
+    if (!ticket) throw new Error('Ticket not found');
+
     // Mark ticket as being reserved by setting order id property
+    ticket.set({ orderId: data.id });
+
     // Save ticket
+    await ticket.save();
+
     // Ack the message
+    msg.ack();
   }
 }
