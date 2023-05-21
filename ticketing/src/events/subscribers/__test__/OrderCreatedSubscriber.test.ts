@@ -40,5 +40,5 @@ const setup = async () => {
 };
 
 describe('OrderCreatedSubscriber', () => {
-  it();
+  // it();
 });
