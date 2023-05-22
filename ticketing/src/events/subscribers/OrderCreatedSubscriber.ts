@@ -4,15 +4,11 @@
  *
  * locking a ticket, setting a time until expiration etc...
  */
-import {
-  OrderCreatedEvent,
-  Subscriber,
-  Subjects,
-  OrderStatus,
-} from '@torressam/common';
+import { OrderCreatedEvent, Subscriber, Subjects } from '@torressam/common';
 import { Message } from 'node-nats-streaming';
 import { queueGroupName } from './queueGroupName';
 import Ticket from '../../models/ticket';
+import { TicketUpdatedPublisher } from '../publishers/TicketUpdatedPublisher';
 
 export class OrderCreatedSubscriber extends Subscriber<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
@@ -30,6 +26,8 @@ export class OrderCreatedSubscriber extends Subscriber<OrderCreatedEvent> {
 
     // Save ticket
     await ticket.save();
+
+    await new TicketUpdatedPublisher(this.client);
 
     // Ack the message
     msg.ack();
