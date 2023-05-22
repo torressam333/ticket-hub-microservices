@@ -51,5 +51,11 @@ describe('OrderCreatedSubscriber', () => {
     expect(updatedTicket!.orderId).toEqual(data.id);
   });
 
-  it('acks the message', async () => {});
+  it('acks the message', async () => {
+    const { subscriber, data, msg } = await setup();
+
+    await subscriber.onMessage(data, msg);
+
+    expect(msg.ack).toHaveBeenCalled();
+  });
 });
