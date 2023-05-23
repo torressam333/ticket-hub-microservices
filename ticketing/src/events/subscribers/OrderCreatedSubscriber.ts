@@ -16,7 +16,7 @@ export class OrderCreatedSubscriber extends Subscriber<OrderCreatedEvent> {
 
   async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
     // Find the ticket that order is reserving
-    const ticket = await Ticket.findById(data.ticket.id).populate('order');
+    const ticket = await Ticket.findById(data.ticket.id);
 
     // If no ticket, error out
     if (!ticket) throw new Error('Ticket not found');
