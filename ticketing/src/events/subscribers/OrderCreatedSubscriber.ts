@@ -28,7 +28,7 @@ export class OrderCreatedSubscriber extends Subscriber<OrderCreatedEvent> {
     await ticket.save();
 
     // Publish event downstream
-    new TicketUpdatedPublisher(this.client).publish({
+    await new TicketUpdatedPublisher(this.client).publish({
       id: ticket.id,
       version: ticket.version,
       title: ticket.title,
