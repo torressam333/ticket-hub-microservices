@@ -58,4 +58,12 @@ describe('OrderCreatedSubscriber', () => {
 
     expect(msg.ack).toHaveBeenCalled();
   });
+
+  it('publishes a ticket updated event', async () => {
+    const { subscriber, data, msg } = await setup();
+
+    await subscriber.onMessage(data, msg);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+  });
 });
