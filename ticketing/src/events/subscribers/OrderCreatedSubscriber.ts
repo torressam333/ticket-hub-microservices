@@ -16,7 +16,7 @@ export class OrderCreatedSubscriber extends Subscriber<OrderCreatedEvent> {
 
   async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
     // Find the ticket that order is reserving
-    const ticket = await Ticket.findById(data.ticket.id);
+    const ticket = await Ticket.findById(data.ticket.id).populate('order');
 
     // If no ticket, error out
     if (!ticket) throw new Error('Ticket not found');
@@ -27,7 +27,15 @@ export class OrderCreatedSubscriber extends Subscriber<OrderCreatedEvent> {
     // Save ticket
     await ticket.save();
 
-    await new TicketUpdatedPublisher(this.client);
+    // Publish event downstream
+    new TicketUpdatedPublisher(this.client).publish({
+      id: ticket.id,
+      version: ticket.version,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+      orderId: ticket.orderId,
+    });
 
     // Ack the message
     msg.ack();
