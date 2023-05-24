@@ -1,6 +1,8 @@
 import app from './app';
 import mongoose from 'mongoose';
 import { natsWrapper } from './NatsWrapper';
+import { OrderCreatedSubscriber } from './events/subscribers/OrderCreatedSubscriber';
+import { OrderCancelledSubscriber } from './events/subscribers/OrderCancelledSubscriber';
 
 // Mongoose connect fn
 const start = async () => {
@@ -31,6 +33,10 @@ const start = async () => {
     // Watch for interrupt or terminate signal. Incercept these req's and close the connection in node nats server
     process.on('SIGINT', () => natsWrapper.client.close());
     process.on('SIGTERM', () => natsWrapper.client.close());
+
+    // Begin listening for order created/cancelled events
+    new OrderCreatedSubscriber(natsWrapper.client).listen();
+    new OrderCancelledSubscriber(natsWrapper.client).listen();
 
     // Added per warning about false being default in mongo v7
     mongoose.set('strictQuery', true);
