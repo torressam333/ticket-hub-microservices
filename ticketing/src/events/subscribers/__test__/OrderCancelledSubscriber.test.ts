@@ -34,5 +34,19 @@ const setup = async () => {
     ack: jest.fn(),
   };
 
-  return { subscriber, ticket, data, msg };
+  return { subscriber, ticket, data, msg, orderId };
 };
+
+describe('Order Cancelled Event', () => {
+  it('updates the ticket, publishes an event and acks the message', async () => {
+    const { subscriber, ticket, data, msg, orderId } = await setup();
+
+    await subscriber.onMessage(data, msg);
+
+    const updatedTicket = await Ticket.findById(ticket.id);
+
+    expect(updatedTicket!.orderId).not.toBeDefined();
+    expect(msg.ack).toHaveBeenCalled();
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+  });
+});
