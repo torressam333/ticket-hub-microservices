@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../../app';
 import mongoose from 'mongoose';
 import { natsWrapper } from '../../NatsWrapper';
+import Ticket from '../../models/ticket';
 
 describe('Updating tickets', () => {
   it('returns a 404 if a ticket id does not exist', async () => {
@@ -123,5 +124,35 @@ describe('Updating tickets', () => {
 
     // Jest redirects call from real N.W publish to mock N.W. publish automatically.
     expect(natsWrapper.client.publish).toHaveBeenCalled();
+  });
+
+  it('prevents a reserved ticket from being updated', async () => {
+    const cookie = signup();
+
+    // Create ticket to be updated
+    const response = await request(app)
+      .post('/api/tickets')
+      .set('Cookie', cookie)
+      .send({
+        title: 'Concert',
+        price: 250,
+      });
+
+    const savedTicket = await Ticket.findById(response.body.id);
+
+    // Won't be edited since it has an order id})
+    savedTicket?.set({ orderId: new mongoose.Types.ObjectId().toHexString() });
+
+    await savedTicket?.save();
+
+    // Edit the same ticket created above
+    await request(app)
+      .put(`/api/tickets/${savedTicket!.id}`)
+      .set('Cookie', cookie)
+      .send({
+        title: 'Blink 182 Concert',
+        price: 400,
+      })
+      .expect(400);
   });
 });
