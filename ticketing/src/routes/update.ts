@@ -6,6 +6,7 @@ import {
   validateRequest,
   requireAuth,
   UnauthorizedError,
+  BadRequestError,
 } from '@torressam/common';
 import { TicketUpdatedPublisher } from '../../nats-test/src/events/TicketUpdatedPublisher';
 import { natsWrapper } from '../NatsWrapper';
@@ -28,6 +29,9 @@ updateRouter.put(
     const ticket = await Ticket.findById(req.params.id);
 
     if (!ticket) throw new NotFoundError();
+
+    // Prevent ticket editing if already reserved by an order
+    if (ticket.orderId) throw new BadRequestError('Ticket is already reserved');
 
     // Ensure ticket belongs to logged in user
     if (ticket.userId !== req.currentUser!.id)
