@@ -4,11 +4,9 @@ metadata:
   name: expiration-depl
 spec:
   replicas: 1
-  # Step 1/2: Tell deployment how to find pods to create
   selector:
     matchLabels:
       app: expiration
-  # How to create each pod
   template:
     metadata:
       labels:
@@ -21,10 +19,10 @@ spec:
             - name: NATS_CLIENT_ID
               valueFrom:
                 fieldRef:
-                  fieldPath: metadata.name #Use pods name as nats client id for easier identification in nats logs
+                  fieldPath: metadata.name
             - name: NATS_URL
-              value: http://nats-srv:4222
+              value: 'http://nats-srv:4222'
             - name: NATS_CLUSTER_ID
-              value: expiration
+              value: ticketing
             - name: REDIS_HOST
-              value: expiration-redis-srv # same as metadata name in redis depl file
+              value: expiration-redis-srv
