@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expiration-depl
+spec:
+  replicas: 1
+  # Step 1/2: Tell deployment how to find pods to create
+  selector:
+    matchLabels:
+      app: expiration
+  # How to create each pod
+  template:
+    metadata:
+      labels:
+        app: expiration
+    spec:
+      containers:
+        - name: expiration
+          image: torressam/expiration
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name #Use pods name as nats client id for easier identification in nats logs
+            - name: NATS_URL
+              value: http://nats-srv:4222
+            - name: NATS_CLUSTER_ID
+              value: expiration
+            - name: REDIS_HOST
+              value: expiration-redis-srv # same as metadata name in redis depl file
