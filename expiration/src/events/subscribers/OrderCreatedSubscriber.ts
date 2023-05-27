@@ -11,5 +11,7 @@ export class OrderCreatedSubscriber extends Subscriber<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
   queueGroupName = queueGroupName;
 
-  async onMessage(data: OrderCreatedEvent['data'], msg: Message) {}
+  async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
+    // Order creared onmessage implementation
+  }
 }
