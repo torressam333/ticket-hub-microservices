@@ -13,7 +13,9 @@ const expirationQueue = new Queue<Payload>('order:expiration', {
 // Process is a method from bulls queue class
 expirationQueue.process(async (job) => {
   console.log(
-    'TODO: Publish expiration:complete event for orderId',
+    'Publish expiration:complete event for orderId',
     job.data.orderId
   );
 });
+
+export default expirationQueue;

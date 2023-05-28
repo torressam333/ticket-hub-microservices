@@ -1,4 +1,5 @@
 import { natsWrapper } from './NatsWrapper';
+import { OrderCreatedSubscriber } from './events/subscribers/OrderCreatedSubscriber';
 
 const start = async () => {
   if (!process.env.NATS_CLIENT_ID) {
@@ -10,6 +11,9 @@ const start = async () => {
   if (!process.env.NATS_CLUSTER_ID) {
     throw new Error('NATS_CLUSTER_ID must be defined');
   }
+
+  // Subscriber is now listening for order created events
+  new OrderCreatedSubscriber(natsWrapper.client).listen();
 
   try {
     await natsWrapper.connect(
