@@ -35,8 +35,8 @@ const start = async () => {
     process.on('SIGTERM', () => natsWrapper.client.close());
 
     // Instantiate Ticket subscribers and listen for traffic
-    new TicketCreatedSubscriber(natsWrapper.client).listen;
-    new TicketUpdatedSubscriber(natsWrapper.client).listen;
+    new TicketCreatedSubscriber(natsWrapper.client).listen();
+    new TicketUpdatedSubscriber(natsWrapper.client).listen();
 
     // Added per warning about false being default in mongo v7
     mongoose.set('strictQuery', true);

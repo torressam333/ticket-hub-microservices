@@ -29,7 +29,7 @@ newOrderRouter.post(
   async (req: Request, res: Response) => {
     const { ticketId } = req.body;
 
-    // 1. Find ticket in DB that user is trying to order
+    // Find the ticket the user is trying to order in the database
     const ticket = await Ticket.findById(ticketId);
 
     if (!ticket) throw new NotFoundError();

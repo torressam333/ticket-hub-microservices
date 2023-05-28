@@ -1,11 +1,6 @@
-/**
- * This ticket model contains very specific implementation details
- * belonging to the order service alont, thus, this Ticket model
- * will not and should not live in the common library
- */
 import mongoose from 'mongoose';
-import Order, { OrderStatus } from './order';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import Order, { OrderStatus } from './order';
 
 interface TicketAttrs {
   id: string;
@@ -53,14 +48,12 @@ const ticketSchema = new mongoose.Schema(
 ticketSchema.set('versionKey', 'version');
 ticketSchema.plugin(updateIfCurrentPlugin);
 
-// Add findByEvent method implementation
 ticketSchema.statics.findByEvent = (event: { id: string; version: number }) => {
   return Ticket.findOne({
     _id: event.id,
     version: event.version - 1,
   });
 };
-// Add build method as static on this schema (model) directly
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket({
     _id: attrs.id,
@@ -68,11 +61,10 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
     price: attrs.price,
   });
 };
-
-// Add isReserved to ticket *Document* not model itself
 ticketSchema.methods.isReserved = async function () {
+  // this === the ticket document that we just called 'isReserved' on
   const existingOrder = await Order.findOne({
-    ticket: this,
+    ticket: this as any,
     status: {
       $in: [
         OrderStatus.Created,

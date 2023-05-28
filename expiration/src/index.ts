@@ -12,9 +12,6 @@ const start = async () => {
     throw new Error('NATS_CLUSTER_ID must be defined');
   }
 
-  // Subscriber is now listening for order created events
-  new OrderCreatedSubscriber(natsWrapper.client).listen();
-
   try {
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID,
@@ -27,6 +24,9 @@ const start = async () => {
     });
     process.on('SIGINT', () => natsWrapper.client.close());
     process.on('SIGTERM', () => natsWrapper.client.close());
+
+    // Subscriber is now listening for order created events
+    new OrderCreatedSubscriber(natsWrapper.client).listen();
   } catch (err) {
     console.error(err);
   }
