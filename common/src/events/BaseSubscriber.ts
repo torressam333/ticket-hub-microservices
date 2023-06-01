@@ -37,7 +37,9 @@ export abstract class Subscriber<T extends Event> {
 
     subscription.on('message', (msg: Message) => {
       // Quick indicator for message events
-      console.log(`Message received: ${this.subject} / ${this.queueGroupName}`);
+      console.log(
+        `Message received: Subject: ${this.subject} / QueueGroupName: ${this.queueGroupName}`
+      );
 
       // Parse data from event
       const parsedData = this.parseMessage(msg);
