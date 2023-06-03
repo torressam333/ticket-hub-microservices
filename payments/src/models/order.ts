@@ -60,6 +60,7 @@ orderSchema.statics.build = (attrs: OrderAttrs) => {
   });
 };
 
+// Init schema from above for model to be imported
 const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
 
 export default Order;
