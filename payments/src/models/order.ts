@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { OrderStatus } from '@torressam/common';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 // Properties required when building an order
 interface OrderAttrs {
@@ -49,6 +50,11 @@ const orderSchema = new mongoose.Schema(
     },
   }
 );
+
+// Overwrite mongoose to not use __v flag
+orderSchema.set('versionKey', 'version');
+// Wire up versioning plugin for orders
+orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order({
