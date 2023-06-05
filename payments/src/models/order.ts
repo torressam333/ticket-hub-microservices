@@ -22,6 +22,7 @@ interface OrderDoc extends mongoose.Document {
 // List of properties that the model itself contains
 interface OrderModel extends mongoose.Model<OrderDoc> {
   build(attr: OrderAttrs): OrderDoc;
+  findByEvent(event: { id: string; version: number }): Promise<OrderDoc | null>;
 }
 
 const orderSchema = new mongoose.Schema(
@@ -55,6 +56,14 @@ const orderSchema = new mongoose.Schema(
 orderSchema.set('versionKey', 'version');
 // Wire up versioning plugin for orders
 orderSchema.plugin(updateIfCurrentPlugin);
+
+// Add method to find orders consistently by id + version combo
+orderSchema.statics.findByEvent = (event: { id: string; version: number }) => {
+  return Order.findOne({
+    _id: event.id,
+    version: event.version - 1,
+  });
+};
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order({
