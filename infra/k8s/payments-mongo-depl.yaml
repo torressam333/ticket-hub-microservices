@@ -4,11 +4,9 @@ metadata:
   name: payments-mongo-depl
 spec:
   replicas: 1
-  # Step 1/2: Tell deployment how to find pods to create
   selector:
     matchLabels:
       app: payments-mongo
-  # How to create each pod
   template:
     metadata:
       labels:
@@ -16,19 +14,17 @@ spec:
     spec:
       containers:
         - name: payments-mongo
-          image: mongo #official mongo db image from Docker hub
+          image: mongo
 ---
-# Kubernates cluster i[ ]service to connect with above pod when created
 apiVersion: v1
 kind: Service
 metadata:
   name: payments-mongo-srv
 spec:
   selector:
-    # Find all pods with label of app:payments-mongo
     app: payments-mongo
   ports:
     - name: db
       protocol: TCP
-      port: 27017 # Default mongo db port
+      port: 27017
       targetPort: 27017
