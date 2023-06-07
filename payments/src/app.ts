@@ -1,6 +1,7 @@
 import express from 'express';
 import 'express-async-errors';
 import cookieSession from 'cookie-session';
+import createChargeRouter from './routes/new';
 
 // MW Imports/Error class imports
 import { errorHandler, NotFoundError, currentUser } from '@torressam/common';
@@ -23,6 +24,9 @@ app.use(
 
 // Middleware
 app.use(currentUser);
+
+// Register routers
+app.use(createChargeRouter);
 
 // Fallback route handling - route not found at this point
 app.all('*', async () => {
