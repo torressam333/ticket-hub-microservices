@@ -12,7 +12,7 @@ interface OrderAttrs {
 }
 
 // List of properties that an order instantiation has (i.e. new Order())
-interface OrderDoc extends mongoose.Document {
+export interface OrderDoc extends mongoose.Document {
   version: number;
   userId: string;
   price: number;
