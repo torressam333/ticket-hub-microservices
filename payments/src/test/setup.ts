@@ -8,7 +8,7 @@ let mongo: any;
 
 // No need to exp. import in other test files
 declare global {
-  function signup(): string[];
+  function signup(id?: string): string[];
 }
 
 // Added per warning about false being default in mongo v7
@@ -45,11 +45,13 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-global.signup = () => {
+// Allow optional id vs generated id for simpler testing
+// Otherwise I'd need to extract the id from a jwt in jest... not fun, lol
+global.signup = (id?: string) => {
   const generateRandomId = new mongoose.Types.ObjectId().toHexString();
   // Build jwt payload {id, email}
   const payload = {
-    id: generateRandomId,
+    id: id || generateRandomId,
     email: 'test@test.com',
   };
 
