@@ -40,7 +40,7 @@ createChargeRouter.post(
 
     const stripeCharge = await _makeStripeApiCall(priceInCents, 'usd', token);
 
-    res.send({ success: true });
+    res.send({ success: true, stripeCharge });
   }
 );
 
