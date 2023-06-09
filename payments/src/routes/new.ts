@@ -12,6 +12,7 @@ import {
   OrderStatus,
 } from '@torressam/common';
 import Order, { OrderDoc } from '../models/order';
+import { stripe } from '../stripe';
 
 const createChargeRouter = express.Router();
 
@@ -34,6 +35,10 @@ createChargeRouter.post(
     _validateRequestOrder(order!, req);
 
     // Time to bill the cc if above errors aren't thrown
+    // Stripe expects cents
+    const priceInCents = order!.price * 100;
+
+    const stripeCharge = await _makeStripeApiCall(priceInCents, 'usd', token);
 
     res.send({ success: true });
   }
@@ -52,8 +57,25 @@ const _validateRequestOrder = (order: OrderDoc, req: Request) => {
     throw new BadRequestError(
       'Order has been canclled and payment will not be accepted'
     );
+};
 
-  // Reach out to stripe api
+const _makeStripeApiCall = async (
+  amount: number,
+  currency: string,
+  source: string
+) => {
+  try {
+    const response = await stripe.charges.create({
+      amount,
+      currency,
+      source,
+    });
+
+    // Stripe returns resp obj as top level object
+    return response;
+  } catch (error: any) {
+    throw new Error(error);
+  }
 };
 
 export default createChargeRouter;
