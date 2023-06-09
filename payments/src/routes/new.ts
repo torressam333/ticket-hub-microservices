@@ -52,6 +52,8 @@ const _validateRequestOrder = (order: OrderDoc, req: Request) => {
     throw new BadRequestError(
       'Order has been canclled and payment will not be accepted'
     );
+
+  // Reach out to stripe api
 };
 
 export default createChargeRouter;

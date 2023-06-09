@@ -6,7 +6,10 @@ import { OrderCreatedSubscriber } from './events/subscribers/OrderCreatedSubscri
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
-    throw new Error('JWT_KEY must be defined');
+    throw new Error('JWT_KEY must be defined in k8s secrets');
+  }
+  if (!process.env.STRIPE_KEY) {
+    throw new Error('STRIPE_KEY must be defined in k8s secrets');
   }
   if (!process.env.MONGO_URI) {
     throw new Error('MONGO_URI must be defined');
