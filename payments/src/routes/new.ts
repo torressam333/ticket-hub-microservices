@@ -38,6 +38,7 @@ createChargeRouter.post(
     // Stripe expects cents
     const priceInCents = order!.price * 100;
 
+    // Store stripe resp to pass to user
     const stripeCharge = await _makeStripeApiCall(priceInCents, 'usd', token);
 
     res.send({ success: true, stripeCharge });
