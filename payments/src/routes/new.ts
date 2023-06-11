@@ -41,7 +41,7 @@ createChargeRouter.post(
     // Store stripe resp to pass to user
     const stripeCharge = await _makeStripeApiCall(priceInCents, 'usd', token);
 
-    res.send({ success: true, stripeCharge });
+    res.status(201).send({ success: true, stripeCharge });
   }
 );
 

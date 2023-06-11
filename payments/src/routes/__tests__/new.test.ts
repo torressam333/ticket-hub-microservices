@@ -3,6 +3,10 @@ import app from '../../app';
 import Order from '../../models/order';
 import mongoose from 'mongoose';
 import { OrderStatus } from '@torressam/common';
+import { stripe } from '../../stripe';
+
+// Tell jest to use mocked stripe client
+jest.mock('../../stripe.ts');
 
 describe('Create new payment', () => {
   it('returns 404 when purchasing a non-existent order', async () => {
@@ -58,5 +62,42 @@ describe('Create new payment', () => {
         orderId: order.id,
       })
       .expect(400);
+  });
+
+  describe('stripe api client', () => {
+    it('returns a 204 with valid inputs', async () => {
+      const userId = new mongoose.Types.ObjectId().toHexString();
+
+      const order = Order.build({
+        id: new mongoose.Types.ObjectId().toHexString(),
+        version: 0,
+        price: 5,
+        status: OrderStatus.Created,
+        userId: userId,
+      });
+
+      await order.save();
+
+      // Mocked Stripe request
+      await request(app)
+        .post('/api/payments')
+        .set('Cookie', global.signup(userId))
+        .send({
+          token: 'tok_visa', // Fake token will always work for test stripe accts
+          orderId: order.id,
+        })
+        .expect(201); // Payment created
+
+      // Confirm stripe charges method was invoked with correct args
+      expect(stripe.charges.create).toHaveBeenCalled();
+
+      // Tell ts that create method is a jest mock else get errors
+      const chargeArguments = (stripe.charges.create as jest.Mock).mock
+        .calls[0][0];
+
+      expect(chargeArguments.source).toEqual('tok_visa');
+      expect(chargeArguments.amount).toEqual(order.price * 100);
+      expect(chargeArguments.currency).toEqual('usd');
+    });
   });
 });
