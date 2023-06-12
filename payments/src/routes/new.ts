@@ -60,6 +60,13 @@ const _validateRequestOrder = (order: OrderDoc, req: Request) => {
     );
 };
 
+/**
+ *
+ * @param amount
+ * @param currency
+ * @param source
+ * @returns
+ */
 const _makeStripeApiCall = async (
   amount: number,
   currency: string,

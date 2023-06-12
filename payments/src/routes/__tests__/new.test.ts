@@ -3,8 +3,7 @@ import app from '../../app';
 import Order from '../../models/order';
 import mongoose from 'mongoose';
 import { OrderStatus } from '@torressam/common';
-// import { stripe } from '../../stripe';
-
+import { stripe } from '../../stripe';
 // // Tell jest to use mocked stripe client
 // jest.mock('../../stripe.ts');
 
@@ -105,4 +104,30 @@ describe('Create new payment', () => {
   //     expect(chargeArguments.currency).toEqual('usd');
   //   });
   // });
+
+  describe('stripe api client', () => {
+    it('returns a 204 with valid inputs', async () => {
+      const userId = new mongoose.Types.ObjectId().toHexString();
+
+      const order = Order.build({
+        id: new mongoose.Types.ObjectId().toHexString(),
+        version: 0,
+        price: 5,
+        status: OrderStatus.Created,
+        userId: userId,
+      });
+
+      await order.save();
+
+      // Real request to stripe
+      await request(app)
+        .post('/api/payments')
+        .set('Cookie', global.signup(userId))
+        .send({
+          token: 'tok_visa', // Mock token will always work for test stripe accts
+          orderId: order.id,
+        })
+        .expect(201);
+    });
+  });
 });
