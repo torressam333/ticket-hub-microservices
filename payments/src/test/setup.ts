@@ -2,7 +2,9 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import { Buffer } from 'node:buffer';
+import dotenv from 'dotenv';
 
+dotenv.config().parsed;
 // Declare in global setup scope
 let mongo: any;
 

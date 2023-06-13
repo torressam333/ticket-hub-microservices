@@ -109,10 +109,13 @@ describe('Create new payment', () => {
     it('returns a 204 with valid inputs', async () => {
       const userId = new mongoose.Types.ObjectId().toHexString();
 
+      // Stripe expects cents
+      const price = Math.floor(Math.random() * 100000);
+
       const order = Order.build({
         id: new mongoose.Types.ObjectId().toHexString(),
         version: 0,
-        price: 5,
+        price,
         status: OrderStatus.Created,
         userId: userId,
       });
@@ -128,6 +131,14 @@ describe('Create new payment', () => {
           orderId: order.id,
         })
         .expect(201);
+
+      // All recent charges
+      const recentCharges = await stripe.charges.list({ limit: 50 });
+      const stripeCharge = recentCharges.data.find((charge) => {
+        return charge.amount === price * 100;
+      });
+
+      expect(stripeCharge).toBeDefined();
     });
   });
 });
