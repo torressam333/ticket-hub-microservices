@@ -13,6 +13,7 @@ import {
 } from '@torressam/common';
 import Order, { OrderDoc } from '../models/order';
 import { stripe } from '../stripe';
+import Payment from '../models/payment';
 
 const createChargeRouter = express.Router();
 
@@ -38,7 +39,14 @@ createChargeRouter.post(
     // Stripe expects cents
     const priceInCents = order!.price * 100;
 
-    await _makeStripeApiCall(priceInCents, 'usd', token);
+    // Create charge from api call to stripe (store resp)
+    const charge = await _makeStripeApiCall(priceInCents, 'usd', token);
+
+    // Create payment instantiation using charge id
+    const payment = Payment.build({ orderId, stripeId: charge.id });
+
+    // Store payment to payment table in db
+    await payment.save();
 
     res.status(201).send({ success: true });
   }
