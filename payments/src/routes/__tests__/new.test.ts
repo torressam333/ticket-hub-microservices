@@ -4,6 +4,8 @@ import Order from '../../models/order';
 import mongoose from 'mongoose';
 import { OrderStatus } from '@torressam/common';
 import { stripe } from '../../stripe';
+import Payment from '../../models/payment';
+
 // // Tell jest to use mocked stripe client
 // jest.mock('../../stripe.ts');
 
@@ -139,6 +141,14 @@ describe('Create new payment', () => {
       });
 
       expect(stripeCharge).toBeDefined();
+
+      // Confirm payment was created and saved
+      const payment = await Payment.findOne({
+        stripeId: stripeCharge?.id,
+        orderId: order.id,
+      });
+
+      expect(payment).not.toBeNull();
     });
   });
 });
