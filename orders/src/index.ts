@@ -4,6 +4,7 @@ import { natsWrapper } from './NatsWrapper';
 import { TicketCreatedSubscriber } from './events/subscribers/TicketCreatedSubscriber';
 import { TicketUpdatedSubscriber } from './events/subscribers/TicketUpdatedSubscriber';
 import { ExpirationCompleteSubscriber } from './events/subscribers/ExpirationCompleteSubscriber';
+import { PaymentCreatedSubscriber } from './events/subscribers/PaymentCreatedSubscriber';
 
 // Mongoose connect fn
 const start = async () => {
@@ -39,6 +40,9 @@ const start = async () => {
     new TicketCreatedSubscriber(natsWrapper.client).listen();
     new TicketUpdatedSubscriber(natsWrapper.client).listen();
     new ExpirationCompleteSubscriber(natsWrapper.client).listen();
+
+    // Listen for payment creation event
+    new PaymentCreatedSubscriber(natsWrapper.client).listen();
 
     // Added per warning about false being default in mongo v7
     mongoose.set('strictQuery', true);
