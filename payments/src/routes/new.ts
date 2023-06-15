@@ -14,6 +14,8 @@ import {
 import Order, { OrderDoc } from '../models/order';
 import { stripe } from '../stripe';
 import Payment from '../models/payment';
+import { PaymentCreatedPublisher } from '../events/publishers/PaymentCreatedPublisher';
+import { natsWrapper } from '../NatsWrapper';
 
 const createChargeRouter = express.Router();
 
@@ -48,7 +50,16 @@ createChargeRouter.post(
     // Store payment to payment table in db
     await payment.save();
 
-    res.status(201).send({ success: true });
+    // Publish payment created event for other services to listen for
+    await new PaymentCreatedPublisher(natsWrapper.client).publish({
+      id: payment.id,
+      // Best to use latest orderId off payment record instead of from initial request (orderId, stripeId) since they can change or be altered at some point
+      orderId: payment.orderId,
+      stripeId: payment.stripeId,
+    });
+
+    // Send back persisted payment
+    res.status(201).send(payment);
   }
 );
 
