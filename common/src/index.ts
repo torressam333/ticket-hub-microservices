@@ -21,6 +21,7 @@ export * from './events/TicketUpdatedEvent';
 export * from './events/OrderCreatedEvent';
 export * from './events/OrderCancelledEvent';
 export * from './events/ExpirationCompleteEvent';
+export * from './events/PaymentCreatedEvent';
 
 // Types and enum exports
 export * from './events/types/order-status';
