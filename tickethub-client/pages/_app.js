@@ -14,13 +14,14 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
 
 // Fetch data during SSR process
 AppComponent.getInitialProps = async ({ ctx, Component }) => {
-  const { data } = await buildClient(ctx).get('/api/users/currentUser');
+  const client = buildClient(ctx);
+  const { data } = await client.get('/api/users/currentUser');
 
   let pageProps = {};
 
   if (Component.getInitialProps) {
     // Call gInProp method from LandingPage
-    pageProps = await Component.getInitialProps(ctx);
+    pageProps = await Component.getInitialProps(ctx, client, data.currentUser);
   }
 
   return {

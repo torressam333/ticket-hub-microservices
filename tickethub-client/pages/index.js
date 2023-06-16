@@ -9,7 +9,7 @@ const LandingPage = ({ currentUser }) => {
 };
 
 // Fetch data during SSR process
-LandingPage.getInitialProps = async (context) => {
+LandingPage.getInitialProps = async (context, client, currentUser) => {
   return {};
 };
 
