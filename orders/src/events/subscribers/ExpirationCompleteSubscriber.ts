@@ -20,6 +20,9 @@ export class ExpirationCompleteSubscriber extends Subscriber<ExpirationCompleteE
 
     if (!order) throw new Error('Order not found');
 
+    // Don't cancel an order that has been paid for
+    if (order.status === OrderStatus.Complete) return msg.ack();
+
     // Update order status to be cancelled if expiration:complete happens
     // from expiration service
     order.set({ status: OrderStatus.Cancelled });
