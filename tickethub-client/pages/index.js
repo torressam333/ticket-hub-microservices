@@ -1,5 +1,4 @@
 import React from 'react';
-import buildClient from '../api/buildClient';
 
 const LandingPage = ({ currentUser }) => {
   return !currentUser ? (
@@ -11,15 +10,7 @@ const LandingPage = ({ currentUser }) => {
 
 // Fetch data during SSR process
 LandingPage.getInitialProps = async (context) => {
-  let currentUser;
-  try {
-    const { data } = await buildClient(context).get('/api/users/currentUser');
-    currentUser = data;
-  } catch (error) {
-    console.error(error);
-  }
-
-  return currentUser;
+  return {};
 };
 
 export default LandingPage;

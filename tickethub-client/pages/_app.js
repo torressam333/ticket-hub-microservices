@@ -7,7 +7,7 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
     <div>
       {/* Place holder for now */}
       <Header currentUser={currentUser} />
-      <Component {...pageProps} />;
+      <Component {...pageProps} currentUser={currentUser} />;
     </div>
   );
 };
@@ -15,6 +15,7 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
 // Fetch data during SSR process
 AppComponent.getInitialProps = async ({ ctx, Component }) => {
   const { data } = await buildClient(ctx).get('/api/users/currentUser');
+
   let pageProps = {};
 
   if (Component.getInitialProps) {

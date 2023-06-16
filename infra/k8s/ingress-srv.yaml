@@ -1,5 +1,3 @@
-# Ingress-nginx allows requests to be made from outside of the cluser
-# then ingress-nginx correctly routes requests once they are inside of the # clusters
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
