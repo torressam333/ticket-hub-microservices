@@ -1,7 +1,7 @@
 /**React component to create a new ticket */
 const NewTicket = () => {
   return (
-    <div className='container-xxl'>
+    <div>
       <h1>Create a Ticket</h1>
       <form>
         <div class='mb-3'>

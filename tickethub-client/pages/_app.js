@@ -7,7 +7,9 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
     <div>
       {/* Place holder for now */}
       <Header currentUser={currentUser} />
-      <Component {...pageProps} currentUser={currentUser} />;
+      <div className='container-xxl'>
+        <Component {...pageProps} currentUser={currentUser} />
+      </div>
     </div>
   );
 };
