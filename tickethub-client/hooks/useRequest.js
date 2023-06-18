@@ -17,7 +17,7 @@ export const useRequest = ({ url, method, body, onSuccess }) => {
       const response = await axios[method](url, body);
 
       // Allow implementing files to provide a success action
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(response.data);
 
       return response.data;
     } catch (err) {
