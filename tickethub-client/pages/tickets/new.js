@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRequest } from '../../hooks/useRequest';
+import Router from 'next/router';
 
 /**React component to create a new ticket */
 const NewTicket = () => {
@@ -9,7 +10,7 @@ const NewTicket = () => {
     url: '/api/tickets',
     method: 'post',
     body: { title, price },
-    onSuccess: (ticket) => console.log(ticket),
+    onSuccess: () => Router.push('/'),
   });
 
   const formatPrice = () => {
