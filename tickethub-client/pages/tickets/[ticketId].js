@@ -1,7 +1,12 @@
 import React from 'react';
 
 const TicketShow = ({ ticket }) => {
-  return <div>TicketShow</div>;
+  return (
+    <div>
+      <h1>{ticket.title}</h1>
+      <h4>{ticket.price}</h4>
+    </div>
+  );
 };
 
 // Grab props needed to display in component
