@@ -9,14 +9,21 @@ const OrderShow = ({ order }) => {
       // Return in ms
       const msLeft = new Date(order.expiresAt) - new Date();
 
-      // Invoke immediataetly to skip initial 1 sec delay
-      findTimeLeft();
-
       // use ms's to update timeleft state
       setTimeLeft(Math.round(msLeft / 1000));
     };
 
-    setInterval(findTimeLeft, 1000);
+    // Invoke immediataetly to skip initial 1 sec delay
+    findTimeLeft();
+
+    const timerId = setInterval(findTimeLeft, 1000);
+
+    if (timeLeft < 1) clearInterval(timerId);
+
+    // Invoke when navigating away from comp/re-rendering comp
+    return () => {
+      clearInterval(timerId);
+    };
   }, []);
 
   return (
