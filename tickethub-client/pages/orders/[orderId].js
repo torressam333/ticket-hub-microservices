@@ -18,8 +18,6 @@ const OrderShow = ({ order }) => {
 
     const timerId = setInterval(findTimeLeft, 1000);
 
-    if (timeLeft < 1) clearInterval(timerId);
-
     // Invoke when navigating away from comp/re-rendering comp
     return () => {
       clearInterval(timerId);
