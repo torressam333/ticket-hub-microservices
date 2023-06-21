@@ -1,10 +1,22 @@
 import React from 'react';
+import { useRequest } from '../../hooks/useRequest';
 
 const TicketShow = ({ ticket }) => {
+  const { executeRequest, errors } = useRequest({
+    url: '/api/orders',
+    method: 'post',
+    body: { ticketId: ticket.id },
+    onSuccess: (order) => console.log(order),
+  });
+
   return (
     <div>
       <h1>{ticket.title}</h1>
       <h4>{ticket.price}</h4>
+      {errors}
+      <button className='btn btn-primary' onClick={executeRequest}>
+        Purchase
+      </button>
     </div>
   );
 };
