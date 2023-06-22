@@ -2,8 +2,10 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 
-const OrderShow = ({ order }) => {
+const OrderShow = ({ order, currentUser }) => {
   const [timeLeft, setTimeLeft] = useState(0);
+  const STRIPE_PUBLIC_KEY =
+    'pk_test_51NH6BIEE0PnH1tEj6Br5pvoEkccVPmhbidCkPl0CRcMK9Mf9la0KOsxkxOC5dndoh3s9W2xomjvnjOlB9G0O3c0e00r4qMahHj';
 
   useEffect(() => {
     const findTimeLeft = () => {
@@ -34,6 +36,13 @@ const OrderShow = ({ order }) => {
       <h4>Title: {order.ticket.title}</h4>
       <h4>Price: ${order.ticket.price}</h4>
       <button className='btn btn-success'>Purchase</button>
+
+      <StripeCheckout
+        token={(token) => console.log(token)}
+        stripeKey={STRIPE_PUBLIC_KEY}
+        amount={order.ticket.price * 100} // Cents to dollars
+        email={currentUser.email}
+      />
     </div>
   );
 };
