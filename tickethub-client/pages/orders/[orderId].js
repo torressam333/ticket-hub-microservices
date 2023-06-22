@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import StripeCheckout from 'react-stripe-checkout';
 
 const OrderShow = ({ order }) => {
   const [timeLeft, setTimeLeft] = useState(0);
