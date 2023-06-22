@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 
 const OrderShow = ({ order }) => {
-  const [timeLeft, setTimeLeft] = useState('');
+  const [timeLeft, setTimeLeft] = useState(0);
 
   useEffect(() => {
     const findTimeLeft = () => {
@@ -22,7 +22,9 @@ const OrderShow = ({ order }) => {
     return () => {
       clearInterval(timerId);
     };
-  }, []);
+  }, [order]);
+
+  if (timeLeft < 1) return <div>Order Has Expired</div>;
 
   return (
     <div>
