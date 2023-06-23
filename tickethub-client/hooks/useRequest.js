@@ -9,12 +9,12 @@ import { useState } from 'react';
 export const useRequest = ({ url, method, body, onSuccess }) => {
   const [errors, setErrors] = useState(null);
 
-  const executeRequest = async () => {
+  const executeRequest = async (props = {}) => {
     try {
       setErrors(null);
 
       // Look up method by index
-      const response = await axios[method](url, body);
+      const response = await axios[method](url, { ...body, ...props });
 
       // Allow implementing files to provide a success action
       if (onSuccess) onSuccess(response.data);
@@ -26,7 +26,7 @@ export const useRequest = ({ url, method, body, onSuccess }) => {
         <div className='alert alert-danger'>
           <h4>Something went wrong:</h4>
           <ul className='my-0'>
-            {err.response.data.errors.map((err) => (
+            {err?.response?.data.errors.map((err) => (
               <li key={err.message}>{err.message}</li>
             ))}
           </ul>

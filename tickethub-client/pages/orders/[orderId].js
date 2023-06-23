@@ -1,9 +1,19 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import StripeCheckout from 'react-stripe-checkout';
+import { useRequest } from '../../hooks/useRequest';
 
 const OrderShow = ({ order, currentUser }) => {
   const [timeLeft, setTimeLeft] = useState(0);
+  const { executeRequest, errors } = useRequest({
+    url: '/api/payments',
+    method: 'post',
+    body: {
+      orderId: order.id,
+    },
+    onSuccess: (payment) => console.log(payment),
+  });
+
   const STRIPE_PUBLIC_KEY =
     'pk_test_51NH6BIEE0PnH1tEj6Br5pvoEkccVPmhbidCkPl0CRcMK9Mf9la0KOsxkxOC5dndoh3s9W2xomjvnjOlB9G0O3c0e00r4qMahHj';
 
@@ -35,10 +45,13 @@ const OrderShow = ({ order, currentUser }) => {
       <h2>You have {timeLeft} seconds to finish this purchase</h2>
       <h4>Title: {order.ticket.title}</h4>
       <h4>Price: ${order.ticket.price}</h4>
+      {errors}
       <button className='btn btn-success'>Purchase</button>
 
       <StripeCheckout
-        token={(token) => console.log(token)}
+        token={({ id: stripeTokenId }) =>
+          executeRequest({ token: stripeTokenId })
+        }
         stripeKey={STRIPE_PUBLIC_KEY}
         amount={order.ticket.price * 100} // Cents to dollars
         email={currentUser.email}
