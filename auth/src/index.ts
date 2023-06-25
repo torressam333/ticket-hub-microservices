@@ -20,7 +20,7 @@ const start = async () => {
 
   // K8S listening on port 3000 (@see auth-depl.yaml file)
   app.listen(3000, async () =>
-    console.log('Auth service listening on port 3000')
+    console.log('Auth service listening on port:3000')
   );
 };
 
