@@ -10,7 +10,7 @@ describe('currentUser', () => {
       .get('/api/users/currentUser')
       .set('Cookie', cookie) // adds auth header
       .send()
-      .expect(201);
+      .expect(200);
 
     expect(response.body.currentUser.email).toEqual('test@test.com');
   });
