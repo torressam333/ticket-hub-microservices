@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../../app';
 
-describe('currentUser', () => {
+describe('currentUser auth', () => {
   it('returns data about the currently logged in user', async () => {
     // First sign up using global signup testing method
     const cookie = await signup();
