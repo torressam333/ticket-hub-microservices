@@ -15,7 +15,7 @@ const start = async () => {
 
     console.log('Mongo auth srv connected properly...');
   } catch (error) {
-    console.log('Something went wrong: ', error);
+    console.log('Something went wrong in mongo auth service: ', error);
   }
 
   // K8S listening on port 3000 (@see auth-depl.yaml file)
