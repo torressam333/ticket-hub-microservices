@@ -1,6 +1,9 @@
 name: payments-tests
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - 'payments/**' #Only run action if changes exist
 
 jobs:
   build:

@@ -1,6 +1,9 @@
 name: ticketing-tests
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - 'ticketing/**' #Only run action if changes exist
 
 jobs:
   build:
