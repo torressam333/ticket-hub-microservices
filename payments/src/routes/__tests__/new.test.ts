@@ -124,10 +124,13 @@ describe('Create new payment', () => {
 
       await order.save();
 
+      const stripeApiKey = process.env.STRIPE_KEY;
+
       // Real request to stripe
       await request(app)
         .post('/api/payments')
         .set('Cookie', global.signup(userId))
+        .set('Authorization', `Bearer ${stripeApiKey}`)
         .send({
           token: 'tok_visa', // Mock token will always work for test stripe accts
           orderId: order.id,
