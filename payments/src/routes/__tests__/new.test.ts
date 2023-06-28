@@ -124,10 +124,6 @@ describe('Create new payment', () => {
 
       await order.save();
 
-      const stripeApiKey = process.env.STRIPE_KEY;
-
-      console.log('STRIPE API KEY', stripeApiKey);
-
       // Real request to stripe
       await request(app)
         .post('/api/payments')
