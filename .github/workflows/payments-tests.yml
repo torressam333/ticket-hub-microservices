@@ -5,6 +5,8 @@ on: pull_request
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      MY_VARIABLE: ${{ secrets.STRIPE_KEY }}
     steps:
       - uses: actions/checkout@v2
       - run: cd payments && npm install && npm run test:ci
