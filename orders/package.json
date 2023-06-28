@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node-dev --watch src src/index.ts",
     "test": "jest --no-cache --detectOpenHandles",
-    "test:watch": "jest --watch --no-cache --detectOpenHandles"
+    "test:watch": "jest --watch --no-cache --detectOpenHandles",
+    "test:ci": "jest --no-cache"
   },
   "jest": {
     "preset": "ts-jest",
