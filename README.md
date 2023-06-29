@@ -83,7 +83,7 @@ Microservices application incorporates the following technologies and tools:
 
 To set up the Ticket Hub Microservices application locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your/repo.git`
+1. Clone the repository: `git@github.com:torressam333/ticket-hub-microservices.git`
 2. Install Docker and Kubernetes if not already installed.
 3. Set up MongoDB and obtain the necessary connection details.
 4. Configure the environment variables for each microservice, including database connection details and API keys.
