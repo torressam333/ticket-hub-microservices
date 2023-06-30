@@ -5,7 +5,8 @@ import mongoose from 'mongoose';
 const start = async () => {
   // Check for required env vars
   if (!process.env.JWT_KEY) throw new Error('JWT_KEY is undefined');
-  if (!process.env.MONGO_URI) throw new Error('Mongo uri is undefined');
+  if (!process.env.MONGO_URI)
+    throw new Error('Mongo uri is undefined in auth service');
   try {
     // Added per warning about false being default in mongo v7
     mongoose.set('strictQuery', true);
