@@ -6,6 +6,11 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+/**
+ *
+ * @param {*} param0
+ * @returns
+ */
 export const useRequest = ({ url, method, body, onSuccess }) => {
   const [errors, setErrors] = useState(null);
 

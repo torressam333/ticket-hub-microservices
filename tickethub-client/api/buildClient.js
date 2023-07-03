@@ -1,5 +1,9 @@
 import axios from 'axios';
+import { request } from 'express';
 
+/**
+ * @param {request}
+ */
 export default ({ req }) => {
   if (typeof window === 'undefined') {
     // We are on the server
