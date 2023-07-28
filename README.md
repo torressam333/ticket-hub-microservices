@@ -1,6 +1,6 @@
 # Ticket Hub Microservices
 
-Ticket Hub Microservices is a comprehensive ticketing application that leverages microservices architecture to create a scalable and robust ticketing service similar to StubHub. This README provides an overview of the application's structure, services, technologies used, and how to set it up.
+Ticket Hub Microservices is a comprehensive ticketing application that leverages microservices architecture to create a scalable and robust ticketing service similar to StubHub. This README provides an overview of the application's structure, services, technologies used, and how to set it up. Setting up kubernetes on your local machine is one approach, you can also attempt to use AWS EKS as a cloud service to manage the clusters/pods running the applications.
 
 ## Table of Contents
 
